@@ -8,6 +8,7 @@
             "test:coverage": "umi-test --coverage"
       },
       "dependencies": {
+            "@ant-design/icons": "^4.2.1",
             "@ant-design/pro-layout": "^5.0.12",
             "@umijs/preset-react": "1.x",
             "@umijs/test": "^3.2.14",
@@ -16,5 +17,8 @@
             "react-dom": "^16.12.0",
             "umi": "^3.2.14",
             "yorkie": "^2.0.0"
+      },
+      "devDependencies": {
+            "@umijs/plugin-webpack-5": "^0.1.3"
       }
 }
