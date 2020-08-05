@@ -5,7 +5,8 @@ const wave_items: Array<any> = Array.from({ length: 30 }, (_, x) => x)
 
 const Index = () => {
 	return (
-		<div className={`${styles._local} w_100 border_box`}>
+            <div className={`${styles._local} w_100 border_box flex flex_column`}>
+                  <div className="banner_item w_100 border_box flex cursor_point">banner_item</div>
 			<div className='wave_items w_100 border_box flex flex_wrap'>
 				{wave_items.map((item, index) => (
 					<div className='wave_item border_box flex cursor_point' key={index}>

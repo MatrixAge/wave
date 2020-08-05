@@ -40,14 +40,18 @@ const Index = () => {
 	const [ state_visible_info, setStateVisibleInfo ] = useState(false)
 	return (
 		<div
-			className={`${styles._local} w_100 border_box flex flex_column justify_center align_center`}
+			className={`${styles._local} w_100 border_box flex justify_between align_center fixed top_0 left_0`}
 		>
 			<img
-				className='logo cursor_point'
+				className='logo cursor_point transition_normal'
 				src={require('@/image/logo_wave_nobg.png')}
 				alt='logo'
 				onClick={() => setStateVisibleInfo(true)}
-			/>
+                  />
+                  <div className="options flex align_center">
+                        <div className="option">login</div>
+                        <div className="option">more</div>
+                  </div>
 			{state_visible_info && (
 				<div className='info_wrap border_box fixed top_0 left_0 w_100vw h_100vh flex justify_center align_center'>
 					<div className='info border_box flex flex_column relative'>
