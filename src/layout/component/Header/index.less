@@ -1,5 +1,15 @@
 @keyframes show_info {
       from {
+            opacity: 0;
+      }
+
+      to {
+            opacity: 1;
+      }
+}
+
+@keyframes show_info {
+      from {
             transform: scale(0);
             opacity: 0;
       }
@@ -12,26 +22,63 @@
 
 ._local {
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(5px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
       :global {
-            .logo {
-                  max-width: 64px;
+            @height: 72px;
+
+            .header_wrap {
+                  background-color: rgba(0, 0, 0, 0.6);
+                  backdrop-filter: blur(5px);
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+                  z-index: 2;
+
+                  .header {
+                        width: var(--width_header);
+                        height: @height;
+
+                        .logo {
+                              max-width: 54px;
+                        }
+
+                        .name {
+                              font-size: 20px;
+                              font-weight: bold;
+                              font-family: Verdana;
+                        }
+
+                        .options {
+                              font-size: 18px;
+                              font-weight: bold;
+
+                              .option {
+                                    padding: 0 12px;
+                                    font-size: 20px;
+                                    outline: none;
+                              }
+                        }
+                  }
             }
 
-            .options {
-                  margin-top: 20px;
-                  font-size: 18px;
-                  font-weight: bold;
+            .header_wrap_placeholder {
+                  height: @height;
+            }
 
-                  .option {
-                        padding: 0 10px;
+            .mask {
+                  background-color: rgba(0, 0, 0, 0.9);
+                  z-index: 10;
+                  touch-action: none;
+                  backdrop-filter: blur(5px);
+
+                  :local {
+                        animation: show_mask 0.3s;
                   }
             }
 
             .info_wrap {
+                  z-index: 11;
+                  font-family: Verdana;
+                  touch-action: none;
+
                   :local {
                         animation: show_info 0.3s;
                   }
@@ -44,52 +91,57 @@
                   .info {
                         width: 600px;
                         padding: 36px;
+                        background-color: rgba(0, 0, 0, 0.8);
+                        backdrop-filter: blur(5px);
+                        border: 1px solid rgba(255, 255, 255, 0.3);
                         border-radius: 24px;
-                        border: 1px solid rgba(255, 255, 255, 1);
-                        background-color: rgba(34, 34, 34, 0.9);
 
-                        .info_row_item {
-                              padding: 10px 12px;
+                        .info_row_item_wrap {
                               border-radius: 100px;
-                              border: 1px solid rgba(255, 255, 255, 0.2);
+                              border: 1px solid rgba(255, 255, 255, 0.15);
 
                               &:hover {
-                                    background-color: #333;
+                                    border: 1px solid rgba(255, 255, 255, 0.3);
                               }
 
-                              .name {
-                                    .icon {
-                                          max-width: 30px;
-                                    }
+                              .info_row_item {
+                                    padding: 12px 16px;
+                                    background-color: black;
+                                    border-radius: 100px;
 
-                                    .text {
-                                          font-size: 18px;
-                                          font-weight: bold;
+                                    .name {
+                                          .icon {
+                                                max-width: 30px;
+                                          }
+
+                                          .text {
+                                                font-size: 18px;
+                                                font-weight: bold;
+                                          }
                                     }
                               }
                         }
 
                         .title {
-                              margin: 32px 0;
+                              margin-top: 36px;
+                              margin-bottom: 18px;
                         }
 
                         .info_block_items {
                               .info_block_item {
                                     width: calc(~'(100% - 36px) / 4');
                                     height: 120px;
-                                    border-radius: 16px;
-                                    overflow: hidden;
                                     margin-right: 12px;
-                                    border: 1px solid rgba(255, 255, 255, 0.2);
+                                    overflow: hidden;
+                                    border: 1px solid rgba(255, 255, 255, 0.15);
+                                    border-radius: 12px;
 
                                     &:nth-of-type(4n) {
                                           margin-right: 0;
                                     }
 
                                     &:hover {
-                                          .bg {
-                                                opacity: 0;
-                                          }
+                                          border: 1px solid rgba(255, 255, 255, 0.3);
                                     }
 
                                     &.umi {
@@ -129,13 +181,19 @@
                                     }
 
                                     .bg {
-                                          opacity: 1;
+                                          opacity: 0.3;
                                           transition: all ease 0.3s;
                                     }
 
                                     .content {
                                           padding: 16px;
                                           backdrop-filter: blur(20px);
+                                          background-color: rgba(0, 0, 0, 0.6);
+                                          color: rgba(255, 255, 255, 0.6);
+
+                                          &:hover {
+                                                color: white;
+                                          }
 
                                           .name {
                                                 width: 100%;
@@ -153,6 +211,13 @@
                                           }
                                     }
                               }
+                        }
+
+                        .statement {
+                              margin-top: -6px;
+                              font-size: 13px;
+                              line-height: 1.6;
+                              color: #888;
                         }
                   }
             }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { StarOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import React, { memo, useState, useEffect } from 'react'
+import { StarOutlined, CloseCircleOutlined, UserOutlined, MenuOutlined } from '@ant-design/icons'
 import styles from './index.less'
 
 interface IRelatedItem {
@@ -38,22 +38,69 @@ const related_items: Array<IRelatedItem> = [
 
 const Index = () => {
 	const [ state_visible_info, setStateVisibleInfo ] = useState(false)
+
+	useEffect(
+		() => {
+			const array_events = [ 'touchmove', 'scroll', 'mousewheel' ]
+
+			if (state_visible_info) {
+				const modal = document.getElementById('modal_more')
+
+				if (!modal) return
+
+				array_events.map((item) => {
+					modal.addEventListener(
+						item,
+						(event: any) => {
+							event.preventDefault()
+						},
+						{ passive: false }
+					)
+				})
+			} else {
+				const modal = document.getElementById('modal_more')
+
+				if (!modal) return
+
+				array_events.map((item) => {
+					modal.removeEventListener(item, (event: any) => {
+						event.preventDefault()
+					})
+				})
+			}
+		},
+		[ state_visible_info ]
+	)
+
 	return (
-		<div
-			className={`${styles._local} w_100 border_box flex justify_between align_center fixed top_0 left_0`}
-		>
-			<img
-				className='logo cursor_point transition_normal'
-				src={require('@/image/logo_wave_nobg.png')}
-				alt='logo'
-				onClick={() => setStateVisibleInfo(true)}
-                  />
-                  <div className="options flex align_center">
-                        <div className="option">login</div>
-                        <div className="option">more</div>
-                  </div>
+		<div className={`${styles._local} w_100 border_box`}>
+			<div className='header_wrap w_100 border_box flex justify_center fixed top_0 left_0'>
+				<div className='header border_box flex justify_between align_center'>
+					<img
+						className='logo cursor_point transition_normal'
+						src={require('@/image/logo_wave_nobg.png')}
+						alt='logo'
+						onClick={() => setStateVisibleInfo(true)}
+					/>
+					<span className='name'>wave.fm</span>
+					<div className='options flex align_center'>
+						<UserOutlined className='option' />
+						<MenuOutlined
+							className='option'
+							onClick={() => setStateVisibleInfo(true)}
+						/>
+					</div>
+				</div>
+			</div>
+			<div className='header_wrap_placeholder w_100 border_box' />
 			{state_visible_info && (
-				<div className='info_wrap border_box fixed top_0 left_0 w_100vw h_100vh flex justify_center align_center'>
+				<div className='mask w_100vw h_100vh fixed top_0 left_0' />
+			)}
+			{state_visible_info && (
+				<div
+					id='modal_more'
+					className='info_wrap border_box fixed top_0 left_0 w_100vw h_100vh flex justify_center align_center'
+				>
 					<div className='info border_box flex flex_column relative'>
 						<div
 							className='btn_close absolute cursor_point'
@@ -61,25 +108,27 @@ const Index = () => {
 						>
 							<CloseCircleOutlined style={{ fontSize: '24px' }} />
 						</div>
-						<a
-							className='info_row_item w_100 border_box flex justify_between align_center transition_normal'
-							href='https://github.com/MatrixAge/wave'
-							target='_blank'
-							rel='noopener noreferrer'
-						>
-							<div className='name flex align_center'>
-								<img
-									className='icon icon_github mr_10'
-									src={require('@/image/icon_github.svg')}
-									alt='icon_github'
-								/>
-								<span className='text'>Github</span>
-							</div>
-							<div className='value'>
-								<span>github.com/MatrixAge/wave</span>
-							</div>
-						</a>
-						<span className='title w_100 text_center inline_block font_bold'>
+						<div className='info_row_item_wrap w_100 border_box'>
+							<a
+								className='info_row_item w_100 border_box flex justify_between align_center'
+								href='https://github.com/MatrixAge/wave'
+								target='_blank'
+								rel='noopener noreferrer'
+							>
+								<div className='name flex align_center'>
+									<img
+										className='icon icon_github mr_10'
+										src={require('@/image/icon_github.svg')}
+										alt='icon_github'
+									/>
+									<span className='text'>Github</span>
+								</div>
+								<div className='value'>
+									<span>github.com/MatrixAge/wave</span>
+								</div>
+							</a>
+						</div>
+						<span className='title w_100 text_center inline_block'>
 							Related
 						</span>
 						<div className='info_block_items w_100 border_box flex flex_wrap'>
@@ -98,7 +147,9 @@ const Index = () => {
 										</span>
 										<div className='star_wrap absolute flex align_center'>
 											<StarOutlined
-												style={{ fontSize: '13px' }}
+												style={{
+													fontSize: '13px'
+												}}
 											/>
 											<span className='count ml_4'>
 												{item.star}
@@ -108,6 +159,14 @@ const Index = () => {
 								</a>
 							))}
 						</div>
+						<span className='title w_100 text_center inline_block'>
+							Statement
+						</span>
+						<div className='statement w_100 border_box flex flex_column align_center'>
+							<span>The Project is no-profit and supported by</span>
+							<span>Netease CloudMusic</span>
+							<span>（网易云音乐）</span>
+						</div>
 					</div>
 				</div>
 			)}
@@ -115,4 +174,4 @@ const Index = () => {
 	)
 }
 
-export default Index
+export default memo(Index)

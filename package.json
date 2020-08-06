@@ -11,12 +11,11 @@
             "@ant-design/icons": "^4.2.1",
             "@umijs/preset-react": "1.x",
             "@umijs/test": "^3.2.14",
+            "ahooks": "^2.4.0",
             "react": "^16.12.0",
             "react-dom": "^16.12.0",
             "umi": "^3.2.14",
             "yorkie": "^2.0.0"
       },
-      "devDependencies": {
-            "@umijs/plugin-webpack-5": "^0.1.3"
-      }
+      "devDependencies": {}
 }

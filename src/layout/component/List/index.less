@@ -1,29 +1,19 @@
 ._local {
+      z-index: 1;
+
       :global {
             @interval: 24px;
 
-            .banner_item {
-                  height: 560px;
+            .wave_item {
+                  width: 100px;
+                  height: 380px;
                   padding: @interval;
-                  margin-bottom: @interval;
-                  border-radius: 15px;
-                  border: 1px dashed #aaa;
-            }
+                  background-color: white;
+                  margin-right: 4px;
 
-            .wave_items {
-                  .wave_item {
-                        width: calc(~'(100% - 24px) / 2');
-                        height: 480px;
-                        padding: @interval;
-                        margin-right: @interval;
-                        margin-bottom: @interval;
-                        border-radius: 15px;
-                        border: 1px dashed #aaa;
-                        background: linear-gradient(to right, rgb(255, 0, 13), rgb(255, 102, 0));
-
-                        &:nth-of-type(2n) {
-                              margin-right: 0;
-                        }
+                  &:hover {
+                        width: 380px;
+                        transform: scale(1.2);
                   }
             }
       }

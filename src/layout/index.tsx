@@ -10,13 +10,11 @@ interface IProps {
 
 export default ({ children }: IProps) => {
 	return (
-		<div className={`${styles._local} w_100 border_box flex justify_center`}>
-			<div className='width_wrap flex flex_column'>
-				<Header />
-				<List />
-				<Player />
-				{children}
-			</div>
+		<div className={`${styles._local} w_100 border_box flex flex_column align_center`}>
+			<Header />
+			<List />
+			<Player />
+			{children}
 		</div>
 	)
 }

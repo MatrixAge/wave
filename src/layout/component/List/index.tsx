@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styles from './index.less'
 
-const wave_items: Array<any> = Array.from({ length: 30 }, (_, x) => x)
+const wave_items: Array<any> = Array.from({ length: 9 }, (_, x) => x)
 
 const Index = () => {
 	return (
-            <div className={`${styles._local} w_100 border_box flex flex_column`}>
-                  <div className="banner_item w_100 border_box flex cursor_point">banner_item</div>
-			<div className='wave_items w_100 border_box flex flex_wrap'>
-				{wave_items.map((item, index) => (
-					<div className='wave_item border_box flex cursor_point' key={index}>
-						{item}
+		<div className={`${styles._local} w_100vw h_100vh border_box fixed top_0 left_0 flex justify_center align_center`}>
+			<div className='wave_items border_box flex justify_center transition_slow'>
+				{wave_items.map((_, index) => (
+					<div
+						className='wave_item border_box flex justify_center align_center cursor_point transition_normal'
+						key={index}
+					>
+						{index}
 					</div>
 				))}
 			</div>
@@ -18,4 +20,4 @@ const Index = () => {
 	)
 }
 
-export default Index
+export default memo(Index)
