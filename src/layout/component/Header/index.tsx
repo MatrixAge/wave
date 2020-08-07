@@ -162,10 +162,20 @@ const Index = () => {
 						<span className='title w_100 text_center inline_block'>
 							Statement
 						</span>
-						<div className='statement w_100 border_box flex flex_column align_center'>
+						<div className='statement one w_100 border_box flex flex_column align_center'>
 							<span>The Project is no-profit and supported by</span>
 							<span>Netease CloudMusic</span>
 							<span>（网易云音乐）</span>
+						</div>
+						<div className='statement two w_100 border_box flex flex_column align_center'>
+							<span>Inspired by Active Theory works</span>
+							<a
+								href='https://emmitfenn.com'
+								target='_blank'
+								rel='noopener noreferrer'
+							>
+								emmitfenn.com
+							</a>
 						</div>
 					</div>
 				</div>
