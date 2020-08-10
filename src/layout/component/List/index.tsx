@@ -35,7 +35,7 @@ const Index = () => {
                                           ${getItemClass(index)} 
                                           border_box flex justify_center align_center cursor_point
                                     `}
-						onMouseOver={() => {
+						onMouseEnter={() => {
 							setStateActiveIndex(index)
 						}}
 						key={index}

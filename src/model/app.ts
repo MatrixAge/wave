@@ -48,8 +48,6 @@ export default modelExtend(commonModal, {
 			const { code } = yield call(Service.refresh)
 
 			if (code === 200) {
-				message.success('login success')
-
 				yield put({
 					type: 'updateState',
 					payload: {
