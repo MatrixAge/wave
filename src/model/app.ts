@@ -25,11 +25,7 @@ export default modelExtend(commonModal, {
 
                   const res = yield call(Service.login, { phone, md5_password })
                   
-                  if (!res || !res.hasOwnProperty('token')) {
-                        message.error('login failed')
-
-                        return
-                  }
+			if (res.code !== 200) return
 
 			yield put({
 				type: 'updateState',
@@ -45,6 +41,10 @@ export default modelExtend(commonModal, {
 			store.set('userinfo', res)
 		},
 		*refresh (_: any, { call, put }: any) {
+			const userinfo = store.get('userinfo')
+
+			if (!userinfo) return
+
 			const { code } = yield call(Service.refresh)
 
 			if (code === 200) {
