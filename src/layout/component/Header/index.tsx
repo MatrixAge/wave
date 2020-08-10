@@ -1,5 +1,6 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, { memo, useState } from 'react'
 import { StarOutlined, CloseCircleOutlined, UserOutlined, MenuOutlined } from '@ant-design/icons'
+import useDisableScroll from '@/hook/useDisableScroll'
 import styles from './index.less'
 
 interface IRelatedItem {
@@ -36,42 +37,18 @@ const related_items: Array<IRelatedItem> = [
 	}
 ]
 
-const Index = () => {
+interface IProps {
+	login: boolean
+	profile: any
+	showLogin: () => void
+}
+
+const Index = (props: IProps) => {
+	const { login, profile, showLogin } = props
 	const [ state_visible_info, setStateVisibleInfo ] = useState(false)
 
-	useEffect(
-		() => {
-			const array_events = [ 'touchmove', 'scroll', 'mousewheel' ]
-
-			if (state_visible_info) {
-				const modal = document.getElementById('modal_more')
-
-				if (!modal) return
-
-				array_events.map((item) => {
-					modal.addEventListener(
-						item,
-						(event: any) => {
-							event.preventDefault()
-						},
-						{ passive: false }
-					)
-				})
-			} else {
-				const modal = document.getElementById('modal_more')
-
-				if (!modal) return
-
-				array_events.map((item) => {
-					modal.removeEventListener(item, (event: any) => {
-						event.preventDefault()
-					})
-				})
-			}
-		},
-		[ state_visible_info ]
-	)
-
+      useDisableScroll(state_visible_info, 'modal_more')
+      
 	return (
 		<div className={`${styles._local} w_100 border_box`}>
 			<div className='header_wrap w_100 border_box flex justify_center fixed top_0 left_0'>
@@ -84,7 +61,24 @@ const Index = () => {
 					/>
 					<span className='name'>wave.fm</span>
 					<div className='options flex align_center'>
-						<UserOutlined className='option' />
+						{login ? (
+							<a
+								href={`https://music.163.com/#/user/home?id=${profile.userId}`}
+								target='_blank'
+								rel='noopener noreferrer'
+							>
+								<img
+									className='avatar'
+									src={profile.avatarUrl}
+									alt='avatar'
+								/>
+							</a>
+						) : (
+							<UserOutlined
+								className='option'
+								onClick={() => showLogin()}
+							/>
+						)}
 						<MenuOutlined
 							className='option'
 							onClick={() => setStateVisibleInfo(true)}

@@ -6,3 +6,7 @@ declare module '*.svg' {
 	const url: string
 	export default url
 }
+
+declare module 'md5'
+declare module 'store'
+declare module 'dva-model-extend'

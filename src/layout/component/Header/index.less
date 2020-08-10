@@ -11,12 +11,12 @@
 @keyframes show_info {
       from {
             opacity: 0;
-            transform:translateX(-12px) translateY(-20px);
+            transform: translateX(-12px) translateY(-20px);
       }
 
       to {
             opacity: 1;
-            transform:translateX(0) translateY(0);
+            transform: translateX(0) translateY(0);
       }
 }
 
@@ -54,6 +54,14 @@
                                     padding: 0 12px;
                                     font-size: 20px;
                                     outline: none;
+                              }
+
+                              .avatar {
+                                    width: 30px;
+                                    height: 30px;
+                                    box-sizing: content-box;
+                                    border-radius: 30px;
+                                    border: 1px solid rgba(255, 255, 255, 0.2);
                               }
                         }
                   }
@@ -228,9 +236,10 @@
                                     animation-delay: 1.4s;
                               }
 
-                              &.two{
+                              &.two {
                                     margin-top: 10px;
-                                    a{
+
+                                    a {
                                           color: #888;
                                     }
                               }
