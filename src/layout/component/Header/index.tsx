@@ -47,8 +47,8 @@ const Index = (props: IProps) => {
 	const { login, profile, showLogin } = props
 	const [ state_visible_info, setStateVisibleInfo ] = useState(false)
 
-      useDisableScroll(state_visible_info, 'modal_more')
-      
+	useDisableScroll(state_visible_info, 'modal_more')
+
 	return (
 		<div className={`${styles._local} w_100 border_box`}>
 			<div className='header_wrap w_100 border_box flex justify_center fixed top_0 left_0'>

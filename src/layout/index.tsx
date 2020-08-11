@@ -1,5 +1,6 @@
 import React, { memo } from 'react'
 import { connect } from 'umi'
+import { message } from 'antd'
 import store from 'store'
 import Header from './component/Header'
 import List from './component/List'
@@ -50,12 +51,44 @@ const Index = ({
 
 	const props_player = {
 		showPlayList: () => {
+			if (!login) {
+				message.warning('login first,please!')
+
+				return
+			}
+
 			dispatch({
 				type: 'app/updateState',
 				payload: { visible_playlist: true }
 			})
 
-			if (store.get('playlist')) return
+			const playlist = store.get('playlist')
+			const playlist_active_id = store.get('playlist_active_id')
+
+			if (playlist) {
+				const real_active_id = playlist_active_id
+					? playlist_active_id
+					: playlist[0].id
+                        const songlist = store.get(`songlist_${real_active_id}`)
+                        
+				if (songlist) {
+					dispatch({
+						type: 'app/updateState',
+						payload: { songlist }
+					})
+
+					return
+				}
+
+				dispatch({
+					type: 'app/getPlaylistDetail',
+					payload: {
+						id: real_active_id
+					}
+				})
+
+				return
+			}
 
 			dispatch({ type: 'app/getPlaylist' })
 		}
@@ -66,6 +99,12 @@ const Index = ({
 		playlist,
 		songlist,
 		loading: loading_getPlaylistDetail,
+		hidePlayList: () => {
+			dispatch({
+				type: 'app/updateState',
+				payload: { visible_playlist: false }
+			})
+		},
 		getPlaylistDetail: (id: number) => {
 			const songlist = store.get(`songlist_${id}`)
 

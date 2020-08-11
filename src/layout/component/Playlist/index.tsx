@@ -1,13 +1,24 @@
-import React, { memo, useState } from 'react'
-import { Tooltip } from 'antd'
-import { LoadingOutlined, SyncOutlined, SwapOutlined, DownCircleOutlined } from '@ant-design/icons'
+import React, { memo, useState, useEffect } from 'react'
+import { Tooltip, Modal } from 'antd'
+import { useVirtualList } from 'ahooks'
+import store from 'store'
+import {
+	LoadingOutlined,
+	SyncOutlined,
+	SwapOutlined,
+	ClearOutlined,
+	CloseCircleOutlined
+} from '@ant-design/icons'
 import styles from './index.less'
+
+const { confirm } = Modal
 
 interface IProps {
 	visible: boolean
 	loading: boolean
 	playlist: Array<any>
 	songlist: Array<any>
+	hidePlayList: () => void
 	getPlaylistDetail: (id: number) => void
 	syncPlaylist: () => void
 	syncPlaylistDetail: (id: number) => void
@@ -19,16 +30,81 @@ const Index = (props: IProps) => {
 		loading,
 		playlist,
 		songlist,
+		hidePlayList,
 		getPlaylistDetail,
 		syncPlaylist,
 		syncPlaylistDetail
 	} = props
 	const [ state_active_playlist_item_id, setStateActivePlaylistItemId ] = useState<
 		number | null
-	>(null)
+	>(null || store.get('playlist_active_id'))
 	const [ state_active_songlist_item_id, setStateActiveSonglistItemId ] = useState<
 		number | null
 	>(null)
+
+	const p_list = useVirtualList(playlist, {
+		overscan: 10,
+		itemHeight: 44
+	})
+
+	const s_list = useVirtualList(songlist, {
+		overscan: 20,
+		itemHeight: 40
+	})
+
+	useEffect(
+		() => {
+			if (playlist.length > 0) {
+				const playlist_active_index = store.get('playlist_active_index')
+				const playlist_active_id = store.get('playlist_active_id')
+
+				if (playlist_active_index) {
+					if (playlist_active_id === playlist[playlist_active_index].id) {
+						setStateActivePlaylistItemId(playlist_active_id)
+
+						if (playlist_active_index - 6 > 0) {
+							p_list.scrollTo(playlist_active_index - 6)
+						} else {
+							p_list.scrollTo(playlist_active_index)
+						}
+
+						return
+					}
+				}
+
+				p_list.scrollTo(0)
+			}
+		},
+		[ visible, playlist ]
+	)
+
+	useEffect(
+		() => {
+			if (songlist.length > 0) {
+				const songlist_active_item = store.get('songlist_active_item')
+
+				if (songlist_active_item) {
+					if (
+						songlist_active_item.id ===
+						songlist[songlist_active_item.index].id
+					) {
+						setStateActiveSonglistItemId(songlist_active_item.id)
+
+						if (songlist_active_item.index - 10 > 0) {
+							s_list.scrollTo(songlist_active_item.index - 10)
+						} else {
+							s_list.scrollTo(songlist_active_item.index)
+						}
+
+						return
+					}
+				}
+
+				s_list.scrollTo(0)
+			}
+		},
+		[ songlist ]
+	)
 
 	return (
 		<div
@@ -38,65 +114,108 @@ const Index = (props: IProps) => {
 			{visible && (
 				<div className='list_wrap w_100 h_100vh fixed top_0 left_0 flex justify_center align_center'>
 					<div className='list border_box flex relative'>
-						<div className='options_wrap absolute w_100 border_box flex justify_between align_center'>
-							<div className='left flex align_center'>
-								<Tooltip title='sync playlist'>
-									<SyncOutlined
-										className='mr_12 ml_2'
-										onClick={() => syncPlaylist()}
-									/>
-								</Tooltip>
-								<Tooltip title='sync songlist'>
-									<SwapOutlined
-										className='sync'
-										onClick={() => {
-											if (
-												state_active_playlist_item_id
-											) {
-												syncPlaylistDetail(
-													state_active_playlist_item_id
-												)
-											}
-										}}
-									/>
-								</Tooltip>
-							</div>
-							<div className='right flex align_center'>
-								<Tooltip title='hide'>
-									<DownCircleOutlined />
-								</Tooltip>
-							</div>
+						<div className='btn_close absolute cursor_point'>
+							<CloseCircleOutlined
+								style={{ color: 'white', fontSize: '24px' }}
+								onClick={() => hidePlayList()}
+							/>
 						</div>
-						<div className='playlist h_100 border_box flex flex_column '>
-							<div className='top_mask playlist_mask absolute top_0 w_100' />
-							<div className='bottom_mask playlist_mask absolute bottom_0 w_100' />
-							{playlist.map((item) => (
-								<div
-									className={`
+						<div className='options_wrap absolute w_100 border_box flex justify_end align_center'>
+							<Tooltip title='sync playlist'>
+								<SyncOutlined
+									className='mr_12 ml_2'
+									onClick={() => syncPlaylist()}
+								/>
+							</Tooltip>
+							<Tooltip title='sync songlist'>
+								<SwapOutlined
+									className='sync mr_12'
+									onClick={() => {
+										if (state_active_playlist_item_id) {
+											syncPlaylistDetail(
+												state_active_playlist_item_id
+											)
+										}
+									}}
+								/>
+							</Tooltip>
+							<Tooltip title='hide'>
+								<ClearOutlined
+									onClick={() => {
+										confirm({
+											className:
+												'confirm_clear_storage',
+											title: 'Confirm',
+											icon: '',
+											content:
+												'Are you sure to delete all storage in your device,this option will also remove you account.',
+											okText: 'confirm',
+											cancelText: 'cancel',
+											onOk: () => {
+												store.clearAll()
+
+												window.location.reload()
+											}
+										})
+									}}
+								/>
+							</Tooltip>
+						</div>
+						<div className='top_mask playlist_mask absolute top_0 w_100' />
+						<div className='bottom_mask playlist_mask absolute bottom_0 w_100' />
+						<div
+							className='playlist_wrap border_box'
+							{...p_list.containerProps}
+						>
+							<div
+								className='playlist h_100 border_box flex flex_column'
+								{...p_list.wrapperProps}
+							>
+								{p_list.list.map(({ data, index }) => (
+									<div
+										className={`
                                                             playlist_item 
-                                                            ${item.id ===
+                                                            ${data.id ===
 										state_active_playlist_item_id
 											? 'active'
 											: ''} w_100 border_box flex align_center
                                                       `}
-									key={item.id}
-									onClick={() => {
-										setStateActivePlaylistItemId(item.id)
-										getPlaylistDetail(item.id)
-									}}
-								>
-									<img
-										className='icon_playlist'
-										src={require('@/image/icon_playlist.svg')}
-										alt='icon_playlist'
-									/>
-									<span className='list_name line_clamp_1'>
-										{item.name}
-									</span>
-								</div>
-							))}
+										key={index}
+										onClick={() => {
+											store.remove(
+												'songlist_active_item'
+											)
+											store.set(
+												'playlist_active_id',
+												data.id
+											)
+											store.set(
+												'playlist_active_index',
+												index
+											)
+
+											setStateActivePlaylistItemId(
+												data.id
+											)
+											getPlaylistDetail(data.id)
+										}}
+									>
+										<img
+											className='icon_playlist'
+											src={require('@/image/icon_playlist.svg')}
+											alt='icon_playlist'
+										/>
+										<span className='list_name line_clamp_1'>
+											{data.name}
+										</span>
+									</div>
+								))}
+							</div>
 						</div>
-						<div className='songlist h_100 border_box'>
+						<div
+							className='songlist_wrap border_box'
+							{...s_list.containerProps}
+						>
 							{loading ? (
 								<div className='loading_wrap w_100 h_100 flex justify_center align_center'>
 									<LoadingOutlined
@@ -107,34 +226,47 @@ const Index = (props: IProps) => {
 									/>
 								</div>
 							) : (
-								songlist.map(
-									(item) =>
-										item.noCopyrightRcmd === null && (
-											<div
-												className={`
-                                                                        songlist_item ${item.id ===
-												state_active_songlist_item_id
-													? 'active'
-													: ''} w_100 border_box flex align_center
-                                                                        `}
-												key={item.id}
-												onClick={() => {
-													setStateActiveSonglistItemId(
-														item.id
-													)
-												}}
-											>
-												<img
-													className='icon_song'
-													src={require('@/image/icon_song.svg')}
-													alt='icon_song'
-												/>
-												<span className='list_name line_clamp_1'>
-													{item.name}
-												</span>
-											</div>
-										)
-								)
+								<div
+									className='songlist border_box'
+									{...s_list.wrapperProps}
+								>
+									{s_list.list.map(
+										({ data, index }) =>
+											data.noCopyrightRcmd === null && (
+												<div
+													className={`
+                                                                                    songlist_item ${data.id ===
+														state_active_songlist_item_id
+															? 'active'
+															: ''} w_100 border_box flex align_center
+                                                                              `}
+													key={index}
+													onClick={() => {
+														store.set(
+															'songlist_active_item',
+															{
+																index: index,
+																id:
+																	data.id
+															}
+														)
+														setStateActiveSonglistItemId(
+															data.id
+														)
+													}}
+												>
+													<img
+														className='icon_song'
+														src={require('@/image/icon_song.svg')}
+														alt='icon_song'
+													/>
+													<span className='list_name line_clamp_1'>
+														{data.name}
+													</span>
+												</div>
+											)
+									)}
+								</div>
 							)}
 						</div>
 					</div>

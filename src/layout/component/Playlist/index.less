@@ -20,12 +20,46 @@
       }
 }
 
+:global {
+
+      .confirm_clear_storage {
+            .ant-modal-content {
+                  border-radius: 20px;
+                  background-color: black;
+                  border: 1px solid #333;
+                  box-shadow: 0 0 30px #333;
+
+                  .ant-modal-body {
+
+                        .ant-modal-confirm-title,
+                        .ant-modal-confirm-content {
+                              color: white;
+                        }
+
+                        .ant-modal-confirm-btns {
+                              .ant-btn {
+                                    color: white;
+                                    background-color: transparent;
+                                    border-radius: 120px;
+                                    border: 1px solid white;
+
+                                    &.ant-btn-primary {
+                                          background-color: white;
+                                          color: black;
+                                    }
+                              }
+                        }
+                  }
+            }
+      }
+}
+
 ._local {
       z-index: 2;
 
       :global {
             .mask {
-                  background-color: rgba(0, 0, 0, 0.9);
+                  background-color: rgba(0, 0, 0, 0.95);
                   z-index: 10;
                   touch-action: none;
                   backdrop-filter: blur(5px);
@@ -51,8 +85,14 @@
                         width: var(--width_playlist);
                         height: 72vh;
 
+                        .btn_close {
+                              bottom: -60px;
+                              right: calc(~'50% - 12px');
+                              opacity: 1;
+                        }
+
                         .options_wrap {
-                              top: 0;
+                              top: 16px;
                               z-index: 13;
 
                               .sync {
@@ -69,83 +109,104 @@
                               }
                         }
 
-                        .playlist {
-                              width: 240px;
-                              padding: 24px 0;
-                              border-right: 1px solid rgba(255, 255, 255, 0.15);
-                              overflow-y: scroll;
+                        .playlist_mask {
+                              height: 36px;
+                              z-index: 12;
 
-                              .playlist_mask {
-                                    height: 36px;
-                                    z-index: 12;
-
-                                    &.top_mask {
-                                          background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-                                    }
-
-                                    &.bottom_mask {
-                                          background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
-                                    }
+                              &.top_mask {
+                                    background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
                               }
 
-                              .playlist_item {
-                                    padding: 8px 0;
+                              &.bottom_mask {
+                                    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+                              }
+                        }
 
-                                    &:hover,
-                                    &.active {
-                                          border-right: 2px solid whitesmoke;
+                        .playlist_wrap {
+                              width: 240px;
+                              height: 72vh;
+                              overflow: auto;
 
-                                          .icon_playlist,
-                                          .list_name {
-                                                opacity: 1;
+                              .playlist {
+                                    width: 100%;
+                                    padding: 24px 0;
+                                    border-right: 1px solid rgba(255, 255, 255, 0.15);
+                                    overflow-y: scroll;
+
+                                    .playlist_item {
+                                          height: 44px;
+
+                                          &:hover,
+                                          &.active {
+                                                border-right: 2px solid whitesmoke;
+
+                                                .icon_playlist,
+                                                .list_name {
+                                                      opacity: 1;
+                                                      font-weight: bold;
+                                                }
                                           }
-                                    }
 
-                                    .icon_playlist {
-                                          width: 28px;
-                                          opacity: 0.5;
-                                    }
+                                          &:last-child {
+                                                margin-bottom: 24px;
+                                          }
 
-                                    .list_name {
-                                          width: calc(~'100% - 28px');
-                                          padding-left: 4px;
-                                          padding-right: 20px;
-                                          cursor: pointer;
-                                          font-size: 13px;
-                                          opacity: 0.8;
+                                          .icon_playlist {
+                                                width: 28px;
+                                                opacity: 0.5;
+                                          }
+
+                                          .list_name {
+                                                width: calc(~'100% - 28px');
+                                                padding-left: 4px;
+                                                padding-right: 20px;
+                                                cursor: pointer;
+                                                font-size: 13px;
+                                                opacity: 0.8;
+                                          }
                                     }
                               }
                         }
 
-                        .songlist {
+                        .songlist_wrap {
                               width: calc(~'100% - 240px');
-                              padding: 24px;
-                              overflow-y: scroll;
+                              height: 72vh;
+                              overflow: auto;
 
-                              .songlist_item {
-                                    padding: 10px 0;
+                              .songlist {
+                                    width: 100%;
+                                    padding: 24px;
 
-                                    &:hover,
-                                    &.active {
+                                    .songlist_item {
+                                          height: 40px;
 
-                                          .icon_song,
-                                          .list_name {
-                                                opacity: 1;
+                                          &:hover,
+                                          &.active {
+
+                                                .icon_song,
+                                                .list_name {
+                                                      opacity: 1;
+                                                      font-weight: bold;
+                                                }
                                           }
-                                    }
 
-                                    .icon_song {
-                                          width: 16px;
-                                          opacity: 0.5;
-                                    }
+                                          &:last-child {
+                                                margin-bottom: 24px;
+                                          }
 
-                                    .list_name {
-                                          width: calc(~'100% - 30px');
-                                          padding-left: 10px;
-                                          padding-right: 20px;
-                                          cursor: pointer;
-                                          font-size: 13px;
-                                          opacity: 0.8;
+                                          .icon_song {
+                                                width: 16px;
+                                                opacity: 0.5;
+                                          }
+
+                                          .list_name {
+                                                width: calc(~'100% - 30px');
+                                                padding-left: 10px;
+                                                padding-right: 20px;
+                                                cursor: pointer;
+                                                font-size: 13px;
+                                                opacity: 0.8;
+                                          }
                                     }
                               }
                         }
