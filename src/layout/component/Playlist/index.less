@@ -1,0 +1,155 @@
+@keyframes show_mask {
+      from {
+            opacity: 0;
+      }
+
+      to {
+            opacity: 1;
+      }
+}
+
+@keyframes show_info {
+      from {
+            opacity: 0;
+            transform: translateY(-20px);
+      }
+
+      to {
+            opacity: 1;
+            transform: translateY(0);
+      }
+}
+
+._local {
+      z-index: 2;
+
+      :global {
+            .mask {
+                  background-color: rgba(0, 0, 0, 0.9);
+                  z-index: 10;
+                  touch-action: none;
+                  backdrop-filter: blur(5px);
+
+                  :local {
+                        animation: show_mask 0.3s;
+                  }
+            }
+
+            .list_wrap {
+                  z-index: 11;
+                  font-family: Verdana;
+                  touch-action: none;
+                  transform-origin: top;
+                  opacity: 0;
+
+                  :local {
+                        animation: show_info 0.3s forwards;
+                        animation-delay: 0.3s;
+                  }
+
+                  .list {
+                        width: var(--width_playlist);
+                        height: 72vh;
+
+                        .options_wrap {
+                              top: 0;
+                              z-index: 13;
+
+                              .sync {
+                                    transform: rotate(90deg);
+                              }
+
+                              .anticon {
+                                    cursor: pointer;
+                                    opacity: 0.6;
+
+                                    &:hover {
+                                          opacity: 1;
+                                    }
+                              }
+                        }
+
+                        .playlist {
+                              width: 240px;
+                              padding: 24px 0;
+                              border-right: 1px solid rgba(255, 255, 255, 0.15);
+                              overflow-y: scroll;
+
+                              .playlist_mask {
+                                    height: 36px;
+                                    z-index: 12;
+
+                                    &.top_mask {
+                                          background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+                                    }
+
+                                    &.bottom_mask {
+                                          background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+                                    }
+                              }
+
+                              .playlist_item {
+                                    padding: 8px 0;
+
+                                    &:hover,
+                                    &.active {
+                                          border-right: 2px solid whitesmoke;
+
+                                          .icon_playlist,
+                                          .list_name {
+                                                opacity: 1;
+                                          }
+                                    }
+
+                                    .icon_playlist {
+                                          width: 28px;
+                                          opacity: 0.5;
+                                    }
+
+                                    .list_name {
+                                          width: calc(~'100% - 28px');
+                                          padding-left: 4px;
+                                          padding-right: 20px;
+                                          cursor: pointer;
+                                          font-size: 13px;
+                                          opacity: 0.8;
+                                    }
+                              }
+                        }
+
+                        .songlist {
+                              width: calc(~'100% - 240px');
+                              padding: 24px;
+                              overflow-y: scroll;
+
+                              .songlist_item {
+                                    padding: 10px 0;
+
+                                    &:hover,
+                                    &.active {
+
+                                          .icon_song,
+                                          .list_name {
+                                                opacity: 1;
+                                          }
+                                    }
+
+                                    .icon_song {
+                                          width: 16px;
+                                          opacity: 0.5;
+                                    }
+
+                                    .list_name {
+                                          width: calc(~'100% - 30px');
+                                          padding-left: 10px;
+                                          padding-right: 20px;
+                                          cursor: pointer;
+                                          font-size: 13px;
+                                          opacity: 0.8;
+                                    }
+                              }
+                        }
+                  }
+            }
+      }
+}

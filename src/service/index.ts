@@ -7,5 +7,11 @@ export default {
 	},
 	refresh: () => {
 		return request(API.API_refresh)
+	},
+	getPlaylist: (uid: number) => {
+		return request(API.API_getPlaylist, { params: { uid } })
+	},
+      getPlaylistDetail: (id: number) => {
+		return request(API.API_getPlaylistDetail, { params: { id } })
 	}
 }

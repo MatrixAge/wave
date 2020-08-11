@@ -12,6 +12,7 @@
             "@umijs/preset-react": "1.x",
             "@umijs/test": "^3.2.14",
             "ahooks": "^2.4.0",
+            "dexie": "^3.0.2",
             "dva-model-extend": "^0.1.2",
             "md5": "^2.3.0",
             "react": "^16.12.0",

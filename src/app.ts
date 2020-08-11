@@ -18,11 +18,11 @@ export const request: RequestConfig = {
 		}
 	],
 	errorHandler: async (err: any) => {
-		const { code, message } = await err.response.json()
+		const { code, message, msg } = await err.response.json()
 
 		if (code !== 200) {
-		      _message.error(message, 5)
-            }
+			_message.error(message || msg, 5)
+		}
 
 		return err
 	}
