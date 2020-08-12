@@ -13,7 +13,9 @@ export default modelExtend(commonModal, {
 		visible_login: false,
 		playlist: store.get('playlist') || [],
 		visible_playlist: false,
-		songlist: []
+		songlist: [],
+		song_url: '',
+		current_song: {}
 	},
 
 	subscriptions: {
@@ -81,7 +83,7 @@ export default modelExtend(commonModal, {
 
 			store.set('playlist', playlist)
 		},
-            *getPlaylistDetail({ payload }: any, { call, put }: any) {
+		*getPlaylistDetail ({ payload }: any, { call, put }: any) {
 			const { id } = payload
 			const { code, playlist: { tracks } } = yield call(Service.getPlaylistDetail, id)
 
@@ -90,9 +92,28 @@ export default modelExtend(commonModal, {
 			yield put({
 				type: 'updateState',
 				payload: { songlist: tracks }
-                  })
-                  
-                  store.set(`songlist_${id}`, tracks)
+			})
+
+			store.set(`songlist_${id}`, tracks)
+		},
+		*getSongUrl ({ payload }: any, { call, put }: any) {
+			const { id } = payload
+			const { code, data } = yield call(Service.getSongUrl, id)
+
+			if (code !== 200) return
+
+			if (!data[0].url) {
+				message.warning('copyright is limited,vip only!')
+
+				return
+			}
+
+			yield put({
+				type: 'updateState',
+				payload: { song_url: data[0].url }
+			})
+
+			store.set(`song_url_${id}`, data[0].url)
 		}
 	}
 })

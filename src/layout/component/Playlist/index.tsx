@@ -22,6 +22,7 @@ interface IProps {
 	getPlaylistDetail: (id: number) => void
 	syncPlaylist: () => void
 	syncPlaylistDetail: (id: number) => void
+	getSongUrl: (id: number, song: any) => void
 }
 
 const Index = (props: IProps) => {
@@ -33,7 +34,8 @@ const Index = (props: IProps) => {
 		hidePlayList,
 		getPlaylistDetail,
 		syncPlaylist,
-		syncPlaylistDetail
+		syncPlaylistDetail,
+		getSongUrl
 	} = props
 	const [ state_active_playlist_item_id, setStateActivePlaylistItemId ] = useState<
 		number | null
@@ -89,9 +91,13 @@ const Index = (props: IProps) => {
 						songlist[songlist_active_item.index].id
 					) {
 						setStateActiveSonglistItemId(songlist_active_item.id)
+						getSongUrl(
+							songlist_active_item.id,
+							songlist[songlist_active_item.index]
+						)
 
-						if (songlist_active_item.index - 10 > 0) {
-							s_list.scrollTo(songlist_active_item.index - 10)
+						if (songlist_active_item.index - 6 > 0) {
+							s_list.scrollTo(songlist_active_item.index - 6)
 						} else {
 							s_list.scrollTo(songlist_active_item.index)
 						}
@@ -114,52 +120,58 @@ const Index = (props: IProps) => {
 			{visible && (
 				<div className='list_wrap w_100 h_100vh fixed top_0 left_0 flex justify_center align_center'>
 					<div className='list border_box flex relative'>
-						<div className='btn_close absolute cursor_point'>
-							<CloseCircleOutlined
-								style={{ color: 'white', fontSize: '24px' }}
-								onClick={() => hidePlayList()}
-							/>
-						</div>
-						<div className='options_wrap absolute w_100 border_box flex justify_end align_center'>
-							<Tooltip title='sync playlist'>
-								<SyncOutlined
-									className='mr_12 ml_2'
-									onClick={() => syncPlaylist()}
-								/>
-							</Tooltip>
-							<Tooltip title='sync songlist'>
-								<SwapOutlined
-									className='sync mr_12'
-									onClick={() => {
-										if (state_active_playlist_item_id) {
-											syncPlaylistDetail(
+						<div className='options_wrap absolute w_100 border_box flex justify_between align_center'>
+							<div className='left flex align_center'>
+								<Tooltip title='sync playlist'>
+									<SyncOutlined
+										className='mr_12 ml_2'
+										onClick={() => syncPlaylist()}
+									/>
+								</Tooltip>
+								<Tooltip title='sync songlist'>
+									<SwapOutlined
+										className='sync mr_12'
+										onClick={() => {
+											if (
 												state_active_playlist_item_id
-											)
-										}
-									}}
-								/>
-							</Tooltip>
-							<Tooltip title='hide'>
-								<ClearOutlined
-									onClick={() => {
-										confirm({
-											className:
-												'confirm_clear_storage',
-											title: 'Confirm',
-											icon: '',
-											content:
-												'Are you sure to delete all storage in your device,this option will also remove you account.',
-											okText: 'confirm',
-											cancelText: 'cancel',
-											onOk: () => {
-												store.clearAll()
-
-												window.location.reload()
+											) {
+												syncPlaylistDetail(
+													state_active_playlist_item_id
+												)
 											}
-										})
-									}}
-								/>
-							</Tooltip>
+										}}
+									/>
+								</Tooltip>
+								<Tooltip title='clear storage'>
+									<ClearOutlined
+										className='mr_12'
+										onClick={() => {
+											confirm({
+												className:
+													'confirm_clear_storage',
+												title: 'Confirm',
+												icon: '',
+												content:
+													'Are you sure to delete all storage in your device,this option will also remove you account.',
+												okText: 'confirm',
+												cancelText: 'cancel',
+												onOk: () => {
+													store.clearAll()
+
+													window.location.reload()
+												}
+											})
+										}}
+									/>
+								</Tooltip>
+							</div>
+							<div className='right flex align_center'>
+								<Tooltip title='close'>
+									<CloseCircleOutlined
+										onClick={() => hidePlayList()}
+									/>
+								</Tooltip>
+							</div>
 						</div>
 						<div className='top_mask playlist_mask absolute top_0 w_100' />
 						<div className='bottom_mask playlist_mask absolute bottom_0 w_100' />
@@ -232,7 +244,8 @@ const Index = (props: IProps) => {
 								>
 									{s_list.list.map(
 										({ data, index }) =>
-											data.noCopyrightRcmd === null && (
+											data.noCopyrightRcmd === null &&
+											(data.h && data.h.vd !== -2) && (
 												<div
 													className={`
                                                                                     songlist_item ${data.id ===
@@ -252,6 +265,11 @@ const Index = (props: IProps) => {
 														)
 														setStateActiveSonglistItemId(
 															data.id
+														)
+
+														getSongUrl(
+															data.id,
+															data
 														)
 													}}
 												>

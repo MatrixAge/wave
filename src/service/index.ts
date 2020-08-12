@@ -11,7 +11,10 @@ export default {
 	getPlaylist: (uid: number) => {
 		return request(API.API_getPlaylist, { params: { uid } })
 	},
-      getPlaylistDetail: (id: number) => {
+	getPlaylistDetail: (id: number) => {
 		return request(API.API_getPlaylistDetail, { params: { id } })
+	},
+	getSongUrl: (id: number) => {
+		return request(API.API_getSongUrl, { params: { id } })
 	}
 }

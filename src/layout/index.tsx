@@ -19,7 +19,9 @@ const Index = ({
 	visible_login,
 	playlist,
 	visible_playlist,
-	songlist
+	songlist,
+	song_url,
+	current_song
 }: any) => {
 	const props_header = {
 		login,
@@ -50,6 +52,8 @@ const Index = ({
 	}
 
 	const props_player = {
+		song_url,
+		current_song,
 		showPlayList: () => {
 			if (!login) {
 				message.warning('login first,please!')
@@ -69,8 +73,8 @@ const Index = ({
 				const real_active_id = playlist_active_id
 					? playlist_active_id
 					: playlist[0].id
-                        const songlist = store.get(`songlist_${real_active_id}`)
-                        
+				const songlist = store.get(`songlist_${real_active_id}`)
+
 				if (songlist) {
 					dispatch({
 						type: 'app/updateState',
@@ -130,6 +134,28 @@ const Index = ({
 				type: 'app/getPlaylistDetail',
 				payload: { id }
 			})
+		},
+		getSongUrl: (id: number, song: any) => {
+			dispatch({
+				type: 'app/updateState',
+				payload: { current_song: song }
+			})
+
+			const song_url = store.get(`song_url_${id}`)
+
+			if (song_url) {
+				dispatch({
+					type: 'app/updateState',
+					payload: { song_url }
+				})
+
+				return
+			}
+
+			dispatch({
+				type: 'app/getSongUrl',
+				payload: { id }
+			})
 		}
 	}
 
@@ -148,7 +174,16 @@ const Index = ({
 export default memo(
 	connect(
 		({
-			app: { login, profile, visible_login, playlist, visible_playlist, songlist },
+			app: {
+				login,
+				profile,
+				visible_login,
+				playlist,
+				visible_playlist,
+				songlist,
+				song_url,
+				current_song
+			},
 			loading
 		}: any) => {
 			const loading_login = loading.effects['app/login']
@@ -162,7 +197,9 @@ export default memo(
 				visible_login,
 				playlist,
 				visible_playlist,
-				songlist
+				songlist,
+				song_url,
+				current_song
 			}
 		}
 	)(Index)
