@@ -91,10 +91,6 @@ const Index = (props: IProps) => {
 						songlist[songlist_active_item.index].id
 					) {
 						setStateActiveSonglistItemId(songlist_active_item.id)
-						getSongUrl(
-							songlist_active_item.id,
-							songlist[songlist_active_item.index]
-						)
 
 						if (songlist_active_item.index - 6 > 0) {
 							s_list.scrollTo(songlist_active_item.index - 6)
@@ -244,8 +240,7 @@ const Index = (props: IProps) => {
 								>
 									{s_list.list.map(
 										({ data, index }) =>
-											data.noCopyrightRcmd === null &&
-											(data.h && data.h.vd !== -2) && (
+											data.noCopyrightRcmd === null && (
 												<div
 													className={`
                                                                                     songlist_item ${data.id ===

@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useState, useEffect, useRef } from 'react'
 import {
 	StepBackwardOutlined,
 	PauseOutlined,
@@ -6,26 +6,101 @@ import {
 	SoundOutlined,
 	UnorderedListOutlined
 } from '@ant-design/icons'
+import { getDuration, getCurrentTime } from './util'
 import styles from './index.less'
 
 interface IProps {
 	song_url: string
 	current_song: any
+	playing: boolean
 	showPlayList: () => void
+	changeStatus: () => void
 }
 
 const Index = (props: IProps) => {
-	const { song_url, current_song, showPlayList } = props
+	const { song_url, current_song, playing, showPlayList, changeStatus } = props
 	const has_current = Object.keys(current_song).length > 0
+	const audio_ctx = new window.AudioContext()
+
+	const [ state_duration_time, setStateDurationTime ] = useState<string>('')
+	const [ state_current_time, setStateCurrentTime ] = useState<string>('')
+	const [ state_percent, setStatePercent ] = useState<number>(0)
+	const audio = useRef<HTMLAudioElement>(null)
+
+	useEffect(
+		() => {
+			const audio_dom = audio.current
+
+			if (!audio_dom) return
+
+			audio_dom.src = song_url
+
+			// audio_dom.ondurationchange = () => getDuration(audio_dom, setStateDurationTime)
+			// audio_dom.ontimeupdate = () => {
+			// 	setStatePercent(Math.ceil(audio_dom.currentTime * 100 / audio_dom.duration))
+			// 	getCurrentTime(audio_dom, setStateCurrentTime)
+			// }
+
+			return () => {
+				// audio_dom.removeEventListener('durationchange', () => {})
+				// audio_dom.removeEventListener('timeupdate', () => {})
+			}
+		},
+		[ song_url ]
+	)
+
+	useEffect(
+		() => {
+			const audio_dom = audio.current
+
+			if (!audio_dom) return
+
+			// audio_dom.oncanplay = () => {
+			// 	if (playing) {
+			// 		audio_dom.play()
+			// 	}
+
+			// 	return () => {
+			// 		audio_dom.removeEventListener('canplay', () => {})
+			// 	}
+			// }
+
+			if (playing) {
+				audio_dom.play()
+			} else {
+				audio_dom.pause()
+			}
+
+			return () => {
+				// audio_dom.removeEventListener('canplay', () => {})
+			}
+		},
+		[ playing ]
+	)
 
 	return (
 		<div
 			className={`${styles._local} w_100 border_box flex justify_center fixed left_0 bottom_0`}
 		>
+			<audio id='audio' ref={audio} preload='auto' />
 			<div className='player border_box flex justify_center align_center relative'>
-				<div className='flex w_100 h_100 border_box justify_between align_center'>
+				<div
+					className='info_wrap flex w_100 h_100 border_box justify_between align_center transition_normal'
+					style={{
+						backgroundImage:
+							'linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3))',
+						backgroundSize: `${state_percent}% 100%`,
+						backgroundRepeat: 'no-repeat'
+					}}
+				>
 					<div className='flex align_center'>
-						<div className='cover flex justify_center align_center'>
+						<div
+							className={`
+                                                cover 
+                                                ${playing ? 'playing' : 'pause'} 
+                                                flex justify_center align_center
+                                          `}
+						>
 							<img
 								className={`
                                                       img_cover 
@@ -44,15 +119,15 @@ const Index = (props: IProps) => {
 								}
 							/>
 						</div>
-						<div className='producer_wrap flex flex_column line_clamp_1'>
-							<span className='song_name'>
+						<div className='producer_wrap flex flex_column'>
+							<span className='song_name line_clamp_1'>
 								{has_current ? current_song.name : ''}
 							</span>
-							<div className='producer flex'>
+							<div className='producer w_100 inline_block line_clamp_1'>
 								{has_current ? (
 									current_song.ar.map((item: any) => (
 										<span
-											className='producer_name mr_10'
+											className='producer_name'
 											key={item.id}
 										>
 											{item.name}
@@ -66,9 +141,9 @@ const Index = (props: IProps) => {
 					</div>
 					<div className='options_wrap flex align_center'>
 						<div className='duration_value flex align_center'>
-							<span className='current'>1:26</span>
+							<span className='current'>{state_current_time}</span>
 							<span>/</span>
-							<span className='total'>3:44</span>
+							<span className='total'>{state_duration_time}</span>
 						</div>
 						<SoundOutlined className='option' />
 						<UnorderedListOutlined
@@ -79,9 +154,22 @@ const Index = (props: IProps) => {
 				</div>
 				<div className='controls_wrap h_100 absolute flex justify_center align_center'>
 					<div className='controls flex align_center'>
-						<StepBackwardOutlined className='prev' />
-						<PauseOutlined className='start_pause' />
-						<StepForwardOutlined className='next' />
+						<StepBackwardOutlined className='prev cursor_point' />
+						<div
+							className='status_wrap flex justify_center align_center cursor_point'
+							onClick={() => changeStatus()}
+						>
+							{playing ? (
+								<PauseOutlined className='start_pause' />
+							) : (
+								<img
+									className='icon_play'
+									src={require('@/image/icon_play.svg')}
+									alt='icon_play'
+								/>
+							)}
+						</div>
+						<StepForwardOutlined className='next cursor_point' />
 					</div>
 				</div>
 			</div>

@@ -15,7 +15,8 @@ export default modelExtend(commonModal, {
 		visible_playlist: false,
 		songlist: [],
 		song_url: '',
-		current_song: {}
+		current_song: {},
+		playing: false
 	},
 
 	subscriptions: {
@@ -68,6 +69,8 @@ export default modelExtend(commonModal, {
 					payload: { login: false }
 				})
 			}
+
+			yield put({ type: 'getDefaultSong' })
 		},
 		*getPlaylist (_: any, { call, put }: any) {
 			const { profile: { userId } } = store.get('userinfo')
@@ -105,6 +108,11 @@ export default modelExtend(commonModal, {
 			if (!data[0].url) {
 				message.warning('copyright is limited,vip only!')
 
+				yield put({
+					type: 'updateState',
+					payload: { playing: false }
+				})
+
 				return
 			}
 
@@ -114,6 +122,38 @@ export default modelExtend(commonModal, {
 			})
 
 			store.set(`song_url_${id}`, data[0].url)
+		},
+		*getDefaultSong (_: any, { put }: any) {
+			const playlist_active_id = store.get('playlist_active_id')
+			const songlist_active_item = store.get('songlist_active_item')
+
+			if (!playlist_active_id) return
+			if (!songlist_active_item) return
+
+			const songlist = store.get(`songlist_${playlist_active_id}`)
+
+			if (!songlist) return
+
+			yield put({
+				type: 'updateState',
+				payload: { current_song: songlist[songlist_active_item.index] }
+			})
+
+			const song_url = store.get(`song_url_${songlist_active_item.id}`)
+
+			if (song_url) {
+				yield put({
+					type: 'updateState',
+					payload: { song_url }
+				})
+
+				return
+			}
+
+			yield put({
+				type: 'getSongUrl',
+				payload: { id: songlist_active_item.id }
+			})
 		}
 	}
 })

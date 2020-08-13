@@ -1,18 +1,35 @@
+@keyframes playing {
+      from {
+            transform: rotate(0);
+      }
+
+      to {
+            transform: rotate(360deg);
+      }
+}
+
 ._local {
       z-index: 2;
 
       :global {
+            #audio {
+                  display: none;
+            }
+
             .player {
                   width: var(--width_player);
                   height: 72px;
                   margin-bottom: 24px;
-                  padding-left: 12px;
-                  padding-right: 20px;
                   border-radius: 36px;
                   background-color: rgba(0, 0, 0, 0.6);
                   background: var(--color_gradient);
                   backdrop-filter: blur(5px);
                   overflow: hidden;
+
+                  .info_wrap{
+                        padding-left: 12px;
+                        padding-right: 20px;
+                  }
 
                   .cover {
                         width: 48px;
@@ -21,6 +38,23 @@
                         border: 1px solid rgba(255, 255, 255, 0.15);
                         border-radius: 24px;
                         overflow: hidden;
+
+                        :local {
+                              animation: playing infinite 12s;
+                              animation-timing-function: linear;
+                        }
+
+                        &.playing {
+                              :local {
+                                    animation-play-state: running;
+                              }
+                        }
+
+                        &.pause {
+                              :local {
+                                    animation-play-state: paused;
+                              }
+                        }
 
                         .img_cover {
                               width: 100%;
@@ -41,23 +75,50 @@
                                     font-size: 24px;
                               }
 
-                              .start_pause {
-                                    margin: 0 12px;
-                                    font-size: 30px;
+                              .status_wrap {
+                                    width: 48px;
+                                    height: 48px;
+
+                                    .start_pause {
+                                          font-size: 30px;
+                                    }
+
+                                    .icon_play {
+                                          width: 26px;
+                                          margin-right: -4px;
+                                    }
                               }
                         }
                   }
 
                   .producer_wrap {
+                        width: 132px;
                         line-height: 1;
 
                         .song_name {
+                              font-size: 14px;
                               margin-bottom: 6px;
                               font-weight: bold;
                         }
 
                         .producer {
                               font-size: 12px;
+
+                              .producer_name {
+                                    white-space: nowrap;
+
+                                    &:last-child {
+                                          &::after {
+                                                display: none;
+                                          }
+                                    }
+
+                                    &::after {
+                                          content: '/';
+                                          display: inline-block;
+                                    }
+
+                              }
                         }
                   }
 

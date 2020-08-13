@@ -86,7 +86,7 @@
                         height: 72vh;
 
                         .options_wrap {
-                              top: -16px;
+                              bottom: -24px;
                               z-index: 13;
 
                               .sync {
@@ -141,6 +141,12 @@
                                                 }
                                           }
 
+                                          &:hover {
+                                                .icon_playlist {
+                                                      opacity: 0.5;
+                                                }
+                                          }
+
                                           &:last-child {
                                                 margin-bottom: 24px;
                                           }
@@ -176,11 +182,19 @@
 
                                           &:hover,
                                           &.active {
+                                                .icon_song {
+                                                      opacity: 1;
+                                                }
 
-                                                .icon_song,
                                                 .list_name {
                                                       opacity: 1;
                                                       font-weight: bold;
+                                                }
+                                          }
+
+                                          &:hover {
+                                                .icon_song {
+                                                      opacity: 0.5;
                                                 }
                                           }
 

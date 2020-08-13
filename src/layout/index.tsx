@@ -21,7 +21,8 @@ const Index = ({
 	visible_playlist,
 	songlist,
 	song_url,
-	current_song
+	current_song,
+	playing
 }: any) => {
 	const props_header = {
 		login,
@@ -54,9 +55,10 @@ const Index = ({
 	const props_player = {
 		song_url,
 		current_song,
+		playing,
 		showPlayList: () => {
 			if (!login) {
-				message.warning('login first,please!')
+				message.warning('please login your netease cloud music account first!')
 
 				return
 			}
@@ -95,6 +97,14 @@ const Index = ({
 			}
 
 			dispatch({ type: 'app/getPlaylist' })
+		},
+		changeStatus: () => {
+                  if (!Object.keys(current_song).length) return
+                  
+			dispatch({
+				type: 'app/updateState',
+				payload: { playing: !playing }
+			})
 		}
 	}
 
@@ -138,7 +148,10 @@ const Index = ({
 		getSongUrl: (id: number, song: any) => {
 			dispatch({
 				type: 'app/updateState',
-				payload: { current_song: song }
+				payload: {
+					current_song: song,
+					playing: true
+				}
 			})
 
 			const song_url = store.get(`song_url_${id}`)
@@ -182,7 +195,8 @@ export default memo(
 				visible_playlist,
 				songlist,
 				song_url,
-				current_song
+				current_song,
+				playing
 			},
 			loading
 		}: any) => {
@@ -199,7 +213,8 @@ export default memo(
 				visible_playlist,
 				songlist,
 				song_url,
-				current_song
+				current_song,
+				playing
 			}
 		}
 	)(Index)
