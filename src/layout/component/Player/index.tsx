@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useRef } from 'react'
+import React, { memo, useState, useEffect, useRef, useCallback } from 'react'
 import {
 	StepBackwardOutlined,
 	PauseOutlined,
@@ -7,6 +7,7 @@ import {
 	UnorderedListOutlined
 } from '@ant-design/icons'
 import { getDuration, getCurrentTime } from './util'
+import { usePlayer } from './util/hook'
 import styles from './index.less'
 
 interface IProps {
@@ -14,7 +15,7 @@ interface IProps {
 	current_song: any
 	playing: boolean
 	showPlayList: () => void
-	changeStatus: () => void
+	changeStatus: (status?: boolean) => void
 }
 
 const Index = (props: IProps) => {
@@ -24,26 +25,28 @@ const Index = (props: IProps) => {
 
 	const [ state_duration_time, setStateDurationTime ] = useState<string>('')
 	const [ state_current_time, setStateCurrentTime ] = useState<string>('')
+	const [ state_current, setStateCurrent ] = useState<number>(0)
 	const [ state_percent, setStatePercent ] = useState<number>(0)
 	const audio = useRef<HTMLAudioElement>(null)
+
+	usePlayer(audio, playing)
 
 	useEffect(
 		() => {
 			const audio_dom = audio.current
 
 			if (!audio_dom) return
+			if (!song_url) return
 
 			audio_dom.src = song_url
+			audio_dom.load()
+			audio_dom.ondurationchange = () => getDuration(audio_dom, setStateDurationTime)
+			audio_dom.ontimeupdate = () => {
+				const current = Math.floor(audio_dom.currentTime)
 
-			// audio_dom.ondurationchange = () => getDuration(audio_dom, setStateDurationTime)
-			// audio_dom.ontimeupdate = () => {
-			// 	setStatePercent(Math.ceil(audio_dom.currentTime * 100 / audio_dom.duration))
-			// 	getCurrentTime(audio_dom, setStateCurrentTime)
-			// }
+				if (current === state_current) return
 
-			return () => {
-				// audio_dom.removeEventListener('durationchange', () => {})
-				// audio_dom.removeEventListener('timeupdate', () => {})
+				setStateCurrent(current)
 			}
 		},
 		[ song_url ]
@@ -55,27 +58,14 @@ const Index = (props: IProps) => {
 
 			if (!audio_dom) return
 
-			// audio_dom.oncanplay = () => {
-			// 	if (playing) {
-			// 		audio_dom.play()
-			// 	}
+			setStatePercent(Math.floor(audio_dom.currentTime * 100 / audio_dom.duration))
+			getCurrentTime(audio_dom, setStateCurrentTime)
 
-			// 	return () => {
-			// 		audio_dom.removeEventListener('canplay', () => {})
-			// 	}
-			// }
-
-			if (playing) {
-				audio_dom.play()
-			} else {
-				audio_dom.pause()
-			}
-
-			return () => {
-				// audio_dom.removeEventListener('canplay', () => {})
+                  if (audio_dom.currentTime === audio_dom.duration) {
+                        changeStatus(false)
 			}
 		},
-		[ playing ]
+		[ state_current ]
 	)
 
 	return (

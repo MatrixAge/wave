@@ -1,13 +1,44 @@
 import * as path from 'path'
 import { defineConfig } from 'umi'
 
+const isProd = process.env.NODE_ENV === 'production'
+
+const splitChunks = (config: any) => {
+	config.merge({
+		optimization: {
+			minimize: true,
+			splitChunks: {
+				chunks: 'all',
+				minSize: 30000,
+				minChunks: 3,
+				automaticNameDelimiter: '.',
+				cacheGroups: {
+					vendor: {
+						name: 'vendors',
+						test ({ resource }: any) {
+							return /[\\/]node_modules[\\/]/.test(resource)
+						},
+						priority: 10
+					}
+				}
+			}
+		}
+	})
+}
+
 export default defineConfig({
 	hash: true,
-      cssnano: {},
-      title:'Wave',
-      singular: true,
-      favicon:'favicon.ico',
+	cssnano: {},
+	esbuild: {},
+	title: 'Wave',
+	singular: true,
+	dynamicImport: {},
+	favicon: 'favicon.ico',
 	dva: { immer: true, hmr: true },
-	nodeModulesTransform: { type: 'none' },
-	alias: { '@root': path.join(__dirname, './') }
+	alias: { '@root': path.join(__dirname, './') },
+	nodeModulesTransform: { type: 'none', exclude: [] },
+	targets: { chrome: 79, firefox: false, safari: false, edge: false, ios: false },
+	chainWebpack: (config) => {
+		if (isProd) splitChunks(config)
+	}
 })

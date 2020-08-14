@@ -98,9 +98,18 @@ const Index = ({
 
 			dispatch({ type: 'app/getPlaylist' })
 		},
-		changeStatus: () => {
+		changeStatus: (status?: boolean) => {
                   if (!Object.keys(current_song).length) return
                   
+                  if (status === true || status === false) {
+                        dispatch({
+                              type: 'app/updateState',
+                              payload: { playing: status }
+                        })
+
+                        return
+                  }
+
 			dispatch({
 				type: 'app/updateState',
 				payload: { playing: !playing }

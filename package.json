@@ -1,5 +1,27 @@
 {
-      "private": true,
+      "name": "@matrixage/wave",
+      "version": "1.0.0",
+      "description": "Super music visualization project.",
+      "main": "none",
+      "repository": {
+            "type": "git",
+            "url": "git+https://github.com/MatrixAge/wave.git"
+      },
+      "keywords": [
+            "wave",
+            "music visualization",
+            "visual",
+            "music",
+            "react",
+            "网易云音乐"
+      ],
+      "author": "matrixage",
+      "license": "MIT",
+      "bugs": {
+            "url": "https://github.com/MatrixAge/wave/issues"
+      },
+      "homepage": "https://github.com/MatrixAge/wave#readme",
+      "private": false,
       "scripts": {
             "start": "umi dev",
             "build": "umi build",
@@ -22,6 +44,7 @@
             "yorkie": "^2.0.0"
       },
       "devDependencies": {
+            "@umijs/plugin-esbuild": "^1.0.0-beta.2",
             "@umijs/plugin-webpack-5": "^0.1.3"
       }
 }

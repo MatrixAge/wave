@@ -16,8 +16,8 @@ const Index = () => {
 		} else {
 			return ''
 		}
-	}
-
+      }
+      
 	return (
 		<div
 			className={`${styles._local} w_100vw h_100vh border_box fixed top_0 left_0 flex justify_center align_center`}

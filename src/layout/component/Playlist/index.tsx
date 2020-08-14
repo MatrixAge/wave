@@ -45,12 +45,12 @@ const Index = (props: IProps) => {
 	>(null)
 
 	const p_list = useVirtualList(playlist, {
-		overscan: 10,
+		overscan: 15,
 		itemHeight: 44
 	})
 
 	const s_list = useVirtualList(songlist, {
-		overscan: 20,
+		overscan: 24,
 		itemHeight: 40
 	})
 
