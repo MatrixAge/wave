@@ -7,23 +7,23 @@ export const usePlayer = (audio: RefObject<HTMLAudioElement>, playing: boolean) 
 
 			if (!audio_dom) return
 
-                  audio_dom.oncanplay = () => {
+			const startPause = async () => {
 				if (playing) {
-                              if (audio_dom.currentTime > 0) return
+					const res: any = await audio_dom.play()
 
-					audio_dom.play()
+					if (res) return
+
+					audio_dom.oncanplay = () => {
+						audio_dom.play().catch((e) => {
+							console.log(e)
+						})
+					}
+				} else {
+					audio_dom.pause()
 				}
-
-				return
 			}
 
-			if (playing) {
-                        if (audio_dom.currentTime > 0) return
-                        
-				audio_dom.play()
-			} else {
-				audio_dom.pause()
-			}
+			startPause()
 		},
 		[ playing ]
 	)

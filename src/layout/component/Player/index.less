@@ -8,6 +8,21 @@
       }
 }
 
+@keyframes shaking {
+      0% {
+            transform: scale(1);
+      }
+
+
+      50% {
+            transform: scale(3);
+      }
+
+      100% {
+            transform: scale(1);
+      }
+}
+
 ._local {
       z-index: 2;
 
@@ -26,7 +41,30 @@
                   backdrop-filter: blur(5px);
                   overflow: hidden;
 
-                  .info_wrap{
+                  .bg_cover {
+                        z-index: 3;
+                        filter: contrast(0.5) blur(3px);
+                        
+                        :local {
+                              animation: shaking infinite 200s;
+                              animation-timing-function: linear;
+                        }
+
+                        &.playing {
+                              :local {
+                                    animation-play-state: running;
+                              }
+                        }
+
+                        &.pause {
+                              :local {
+                                    animation-play-state: paused;
+                              }
+                        }
+                  }
+
+                  .info_wrap {
+                        z-index: 4;
                         padding-left: 12px;
                         padding-right: 20px;
                   }
@@ -38,6 +76,8 @@
                         border: 1px solid rgba(255, 255, 255, 0.15);
                         border-radius: 24px;
                         overflow: hidden;
+
+                      
 
                         :local {
                               animation: playing infinite 12s;
@@ -66,7 +106,7 @@
                   }
 
                   .controls_wrap {
-                        z-index: 3;
+                        z-index: 5;
 
                         .controls {
 

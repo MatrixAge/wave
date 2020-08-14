@@ -35,11 +35,14 @@ const Index = (props: IProps) => {
 		() => {
 			const audio_dom = audio.current
 
+			setStatePercent(0)
+			setStateCurrentTime('')
+
 			if (!audio_dom) return
 			if (!song_url) return
 
 			audio_dom.src = song_url
-			audio_dom.load()
+
 			audio_dom.ondurationchange = () => getDuration(audio_dom, setStateDurationTime)
 			audio_dom.ontimeupdate = () => {
 				const current = Math.floor(audio_dom.currentTime)
@@ -58,11 +61,15 @@ const Index = (props: IProps) => {
 
 			if (!audio_dom) return
 
-			setStatePercent(Math.floor(audio_dom.currentTime * 100 / audio_dom.duration))
+			const currentTime = Math.ceil(audio_dom.currentTime)
+			const duration = Math.ceil(audio_dom.duration)
+
+			setStatePercent(Math.ceil(currentTime * 100 / duration))
 			getCurrentTime(audio_dom, setStateCurrentTime)
 
-                  if (audio_dom.currentTime === audio_dom.duration) {
-                        changeStatus(false)
+			if (currentTime === duration) {
+				setStateCurrent(0)
+				changeStatus(false)
 			}
 		},
 		[ state_current ]
@@ -73,12 +80,30 @@ const Index = (props: IProps) => {
 			className={`${styles._local} w_100 border_box flex justify_center fixed left_0 bottom_0`}
 		>
 			<audio id='audio' ref={audio} preload='auto' />
-			<div className='player border_box flex justify_center align_center relative'>
+			<div
+				className='player border_box flex justify_center align_center relative'
+				style={{ background: `${has_current ? 'none' : 'var(--color_gradient)'}` }}
+			>
+				{has_current && (
+					<div
+						className={`
+                                          bg_cover
+                                          ${playing ? 'playing' : 'pause'} 
+                                          flex w_100 h_100 absolute left_0 top_0 transition_normal
+                                     `}
+						style={{
+							backgroundImage: `url(${current_song.al.picUrl})`,
+							backgroundSize: `100%`,
+							backgroundRepeat: 'no-repeat',
+							backgroundPosition: 'center center'
+						}}
+					/>
+				)}
 				<div
-					className='info_wrap flex w_100 h_100 border_box justify_between align_center transition_normal'
+					className='info_wrap flex w_100 h_100 border_box justify_between align_center transition_normal relative'
 					style={{
 						backgroundImage:
-							'linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3))',
+							'linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3))',
 						backgroundSize: `${state_percent}% 100%`,
 						backgroundRepeat: 'no-repeat'
 					}}
@@ -131,9 +156,17 @@ const Index = (props: IProps) => {
 					</div>
 					<div className='options_wrap flex align_center'>
 						<div className='duration_value flex align_center'>
-							<span className='current'>{state_current_time}</span>
+							<span className='current'>
+								{state_current_time ? state_current_time : '00:00'}
+							</span>
 							<span>/</span>
-							<span className='total'>{state_duration_time}</span>
+							<span className='total'>
+								{state_duration_time ? (
+									state_duration_time
+								) : (
+									'00:00'
+								)}
+							</span>
 						</div>
 						<SoundOutlined className='option' />
 						<UnorderedListOutlined
