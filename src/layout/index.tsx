@@ -50,8 +50,8 @@ const Index = ({
 				payload: { phone, md5_password }
 			})
 		}
-	}
-
+      }
+      
 	const props_player = {
 		song_url,
 		current_song,
@@ -99,16 +99,17 @@ const Index = ({
 			dispatch({ type: 'app/getPlaylist' })
 		},
 		changeStatus: (status?: boolean) => {
-                  if (!Object.keys(current_song).length) return
-                  
-                  if (status === true || status === false) {
-                        dispatch({
-                              type: 'app/updateState',
-                              payload: { playing: status }
-                        })
+			if (!Object.keys(current_song).length) return
+			if (!song_url) return
 
-                        return
-                  }
+			if (status === true || status === false) {
+				dispatch({
+					type: 'app/updateState',
+					payload: { playing: status }
+				})
+
+				return
+			}
 
 			dispatch({
 				type: 'app/updateState',
@@ -177,6 +178,12 @@ const Index = ({
 			dispatch({
 				type: 'app/getSongUrl',
 				payload: { id }
+			})
+		},
+		showLogin: () => {
+			dispatch({
+				type: 'app/updateState',
+				payload: { visible_login: true }
 			})
 		}
 	}

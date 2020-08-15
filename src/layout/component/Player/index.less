@@ -11,15 +11,17 @@
 @keyframes shaking {
       0% {
             transform: scale(1);
+            filter:blur(0px) brightness(0.6);
       }
-
 
       50% {
             transform: scale(3);
+            filter:blur(10px) brightness(1);
       }
 
       100% {
             transform: scale(1);
+            filter:blur(0px) brightness(0.8);
       }
 }
 
@@ -43,8 +45,8 @@
 
                   .bg_cover {
                         z-index: 3;
-                        filter: contrast(0.5) blur(3px);
-                        
+                        filter:blur(0px) brightness(0.8);
+
                         :local {
                               animation: shaking infinite 200s;
                               animation-timing-function: linear;
@@ -57,6 +59,8 @@
                         }
 
                         &.pause {
+                              opacity: 0;
+
                               :local {
                                     animation-play-state: paused;
                               }
@@ -76,8 +80,6 @@
                         border: 1px solid rgba(255, 255, 255, 0.15);
                         border-radius: 24px;
                         overflow: hidden;
-
-                      
 
                         :local {
                               animation: playing infinite 12s;

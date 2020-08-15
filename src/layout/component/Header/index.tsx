@@ -1,5 +1,10 @@
 import React, { memo, useState } from 'react'
-import { StarOutlined, CloseCircleOutlined, UserOutlined, MenuOutlined } from '@ant-design/icons'
+import {
+	StarOutlined,
+	CloseCircleOutlined,
+	UserOutlined,
+	QuestionOutlined
+} from '@ant-design/icons'
 import useDisableScroll from '@/hook/useDisableScroll'
 import styles from './index.less'
 
@@ -51,6 +56,9 @@ const Index = (props: IProps) => {
 
 	return (
 		<div className={`${styles._local} w_100 border_box`}>
+			<div className='related_wrap w_100 border_box flex justify_center align_center fixed cursor_point transition_normal' onClick={() => setStateVisibleInfo(true)}>
+				<QuestionOutlined className='icon' />
+			</div>
 			<div className='header_wrap w_100 border_box flex justify_center fixed top_0 left_0'>
 				<div className='header border_box flex justify_between align_center'>
 					<img
@@ -79,10 +87,6 @@ const Index = (props: IProps) => {
 								onClick={() => showLogin()}
 							/>
 						)}
-						<MenuOutlined
-							className='option'
-							onClick={() => setStateVisibleInfo(true)}
-						/>
 					</div>
 				</div>
 			</div>
@@ -135,14 +139,14 @@ const Index = (props: IProps) => {
 									key={item.class}
 								>
 									<div className='bg absolute w_100 h_100' />
-									<div className='content relative w_100 border_box h_100 flex transition_normal'>
-										<span className='name'>
+									<div className='content relative w_100 border_box h_100 flex flex_column justify_center align_center transition_normal'>
+										<span className='name text_center'>
 											{item.name}
 										</span>
 										<div className='star_wrap absolute flex align_center'>
 											<StarOutlined
 												style={{
-													fontSize: '13px'
+													fontSize: '11px'
 												}}
 											/>
 											<span className='count ml_4'>

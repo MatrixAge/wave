@@ -7,8 +7,22 @@ export const usePlayer = (audio: RefObject<HTMLAudioElement>, playing: boolean) 
 
 			if (!audio_dom) return
 
+			const getState = async (): Promise<any> => {
+				return new Promise((resolve) => {
+					const timer = setInterval(() => {
+						if (audio_dom.readyState === 4) {
+							clearInterval(timer)
+
+							resolve()
+						}
+					}, 30)
+				})
+			}
+
 			const startPause = async () => {
 				if (playing) {
+					await getState()
+
 					const res: any = await audio_dom.play()
 
 					if (res) return

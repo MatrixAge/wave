@@ -7,7 +7,8 @@ import {
 	SyncOutlined,
 	SwapOutlined,
 	ClearOutlined,
-	CloseCircleOutlined
+	CloseCircleOutlined,
+	UserOutlined
 } from '@ant-design/icons'
 import styles from './index.less'
 
@@ -23,6 +24,7 @@ interface IProps {
 	syncPlaylist: () => void
 	syncPlaylistDetail: (id: number) => void
 	getSongUrl: (id: number, song: any) => void
+	showLogin: () => void
 }
 
 const Index = (props: IProps) => {
@@ -35,7 +37,8 @@ const Index = (props: IProps) => {
 		getPlaylistDetail,
 		syncPlaylist,
 		syncPlaylistDetail,
-		getSongUrl
+		getSongUrl,
+		showLogin
 	} = props
 	const [ state_active_playlist_item_id, setStateActivePlaylistItemId ] = useState<
 		number | null
@@ -159,6 +162,9 @@ const Index = (props: IProps) => {
 											})
 										}}
 									/>
+								</Tooltip>
+								<Tooltip title='relogin,while can`t play'>
+									<UserOutlined onClick={() => showLogin()} />
 								</Tooltip>
 							</div>
 							<div className='right flex align_center'>

@@ -37,9 +37,9 @@ const Index = (props: IProps) => {
 
 			setStatePercent(0)
 			setStateCurrentTime('')
+			setStateDurationTime('')
 
 			if (!audio_dom) return
-			if (!song_url) return
 
 			audio_dom.src = song_url
 
@@ -67,7 +67,7 @@ const Index = (props: IProps) => {
 			setStatePercent(Math.ceil(currentTime * 100 / duration))
 			getCurrentTime(audio_dom, setStateCurrentTime)
 
-			if (currentTime === duration) {
+			if (audio_dom.ended) {
 				setStateCurrent(0)
 				changeStatus(false)
 			}
@@ -79,17 +79,21 @@ const Index = (props: IProps) => {
 		<div
 			className={`${styles._local} w_100 border_box flex justify_center fixed left_0 bottom_0`}
 		>
-			<audio id='audio' ref={audio} preload='auto' />
+			<audio id='audio' ref={audio} preload='auto' crossOrigin='anonymous' />
 			<div
-				className='player border_box flex justify_center align_center relative'
-				style={{ background: `${has_current ? 'none' : 'var(--color_gradient)'}` }}
+				className='player border_box flex justify_center align_center relative transition_normal'
+				style={{
+					background: `${has_current && playing
+						? 'none'
+						: 'var(--color_gradient)'}`
+				}}
 			>
 				{has_current && (
 					<div
 						className={`
                                           bg_cover
-                                          ${playing ? 'playing' : 'pause'} 
                                           flex w_100 h_100 absolute left_0 top_0 transition_normal
+                                          ${playing ? 'playing' : 'pause'} 
                                      `}
 						style={{
 							backgroundImage: `url(${current_song.al.picUrl})`,
