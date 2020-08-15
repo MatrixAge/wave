@@ -57,7 +57,7 @@ const Index = (props: IProps) => {
 	return (
 		<div className={`${styles._local} w_100 border_box`}>
 			<div className='related_wrap w_100 border_box flex justify_center align_center fixed cursor_point transition_normal' onClick={() => setStateVisibleInfo(true)}>
-				<QuestionOutlined className='icon' />
+				<QuestionOutlined className='icon transition_normal' />
 			</div>
 			<div className='header_wrap w_100 border_box flex justify_center fixed top_0 left_0'>
 				<div className='header border_box flex justify_between align_center'>

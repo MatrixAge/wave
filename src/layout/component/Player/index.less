@@ -11,17 +11,17 @@
 @keyframes shaking {
       0% {
             transform: scale(1);
-            filter:blur(0px) brightness(0.6);
+            filter:blur(0px) brightness(0.6) saturate(2);
       }
 
       50% {
             transform: scale(3);
-            filter:blur(10px) brightness(1);
+            filter:blur(10px) brightness(1.2) saturate(1);
       }
 
       100% {
             transform: scale(1);
-            filter:blur(0px) brightness(0.8);
+            filter:blur(0px) brightness(0.6) saturate(2);
       }
 }
 
@@ -48,7 +48,7 @@
                         filter:blur(0px) brightness(0.8);
 
                         :local {
-                              animation: shaking infinite 200s;
+                              animation: shaking infinite;
                               animation-timing-function: linear;
                         }
 

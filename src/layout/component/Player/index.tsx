@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useRef, useCallback } from 'react'
+import React, { memo, useState, useEffect, useRef } from 'react'
 import {
 	StepBackwardOutlined,
 	PauseOutlined,
@@ -21,13 +21,14 @@ interface IProps {
 const Index = (props: IProps) => {
 	const { song_url, current_song, playing, showPlayList, changeStatus } = props
 	const has_current = Object.keys(current_song).length > 0
-	const audio_ctx = new window.AudioContext()
 
 	const [ state_duration_time, setStateDurationTime ] = useState<string>('')
 	const [ state_current_time, setStateCurrentTime ] = useState<string>('')
+	const [ state_duration, setStateDuration ] = useState<number>(0)
 	const [ state_current, setStateCurrent ] = useState<number>(0)
 	const [ state_percent, setStatePercent ] = useState<number>(0)
 	const audio = useRef<HTMLAudioElement>(null)
+	// const audio_ctx = useRef(new window.AudioContext())
 
 	usePlayer(audio, playing)
 
@@ -35,15 +36,21 @@ const Index = (props: IProps) => {
 		() => {
 			const audio_dom = audio.current
 
-			setStatePercent(0)
 			setStateCurrentTime('')
 			setStateDurationTime('')
+			setStateDuration(0)
+			setStateCurrent(0)
+			setStatePercent(0)
 
 			if (!audio_dom) return
 
+			audio_dom.pause()
 			audio_dom.src = song_url
 
-			audio_dom.ondurationchange = () => getDuration(audio_dom, setStateDurationTime)
+			audio_dom.ondurationchange = () => {
+				setStateDuration(audio_dom.duration)
+				getDuration(audio_dom, setStateDurationTime)
+			}
 			audio_dom.ontimeupdate = () => {
 				const current = Math.floor(audio_dom.currentTime)
 
@@ -67,9 +74,17 @@ const Index = (props: IProps) => {
 			setStatePercent(Math.ceil(currentTime * 100 / duration))
 			getCurrentTime(audio_dom, setStateCurrentTime)
 
-			if (audio_dom.ended) {
-				setStateCurrent(0)
-				changeStatus(false)
+			if (currentTime === duration) {
+				const timer = setInterval(() => {
+					if (audio_dom.ended) {
+						setStateCurrentTime('')
+						setStateCurrent(0)
+						setStatePercent(0)
+						changeStatus(false)
+
+						clearInterval(timer)
+					}
+				}, 30)
 			}
 		},
 		[ state_current ]
@@ -99,7 +114,10 @@ const Index = (props: IProps) => {
 							backgroundImage: `url(${current_song.al.picUrl})`,
 							backgroundSize: `100%`,
 							backgroundRepeat: 'no-repeat',
-							backgroundPosition: 'center center'
+							backgroundPosition: 'center center',
+							animationDuration: `${state_duration
+								? state_duration
+								: '200'}s`
 						}}
 					/>
 				)}
