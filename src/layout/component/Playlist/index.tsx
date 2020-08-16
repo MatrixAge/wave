@@ -188,12 +188,13 @@ const Index = (props: IProps) => {
 								{p_list.list.map(({ data, index }) => (
 									<div
 										className={`
-                                                            playlist_item 
-                                                            ${data.id ===
-										state_active_playlist_item_id
-											? 'active'
-											: ''} w_100 border_box flex align_center
-                                                      `}
+                                                                              playlist_item 
+                                                                              w_100 border_box flex align_center
+                                                                              ${data.id ===
+													state_active_playlist_item_id
+														? 'active'
+														: ''}
+                                                                        `}
 										key={index}
 										onClick={() => {
 											store.remove(
@@ -244,47 +245,40 @@ const Index = (props: IProps) => {
 									className='songlist border_box'
 									{...s_list.wrapperProps}
 								>
-									{s_list.list.map(
-										({ data, index }) =>
-											data.noCopyrightRcmd === null && (
-												<div
-													className={`
+									{s_list.list.map(({ data, index }) => (
+										<div
+											className={`
                                                                                     songlist_item ${data.id ===
 														state_active_songlist_item_id
 															? 'active'
 															: ''} w_100 border_box flex align_center
                                                                               `}
-													key={index}
-													onClick={() => {
-														store.set(
-															'songlist_active_item',
-															{
-																index: index,
-																id:
-																	data.id
-															}
-														)
-														setStateActiveSonglistItemId(
-															data.id
-														)
+											key={index}
+											onClick={() => {
+												store.set(
+													'songlist_active_item',
+													{
+														index: index,
+														id: data.id
+													}
+												)
+												setStateActiveSonglistItemId(
+													data.id
+												)
 
-														getSongUrl(
-															data.id,
-															data
-														)
-													}}
-												>
-													<img
-														className='icon_song'
-														src={require('@/image/icon_song.svg')}
-														alt='icon_song'
-													/>
-													<span className='list_name line_clamp_1'>
-														{data.name}
-													</span>
-												</div>
-											)
-									)}
+												getSongUrl(data.id, data)
+											}}
+										>
+											<img
+												className='icon_song'
+												src={require('@/image/icon_song.svg')}
+												alt='icon_song'
+											/>
+											<span className='list_name line_clamp_1'>
+												{data.name}
+											</span>
+										</div>
+									))}
 								</div>
 							)}
 						</div>
