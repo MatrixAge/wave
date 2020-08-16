@@ -27,6 +27,7 @@ const Index = (props: IProps) => {
 	const [ state_duration, setStateDuration ] = useState<number>(0)
 	const [ state_current, setStateCurrent ] = useState<number>(0)
 	const [ state_percent, setStatePercent ] = useState<number>(0)
+	const [ state_animate, setStateAnimate ] = useState<boolean>(false)
 	const audio = useRef<HTMLAudioElement>(null)
 	// const audio_ctx = useRef(new window.AudioContext())
 
@@ -41,6 +42,7 @@ const Index = (props: IProps) => {
 			setStateDuration(0)
 			setStateCurrent(0)
 			setStatePercent(0)
+			setStateAnimate(false)
 
 			if (!audio_dom) return
 
@@ -48,6 +50,7 @@ const Index = (props: IProps) => {
 			audio_dom.src = song_url
 
 			audio_dom.ondurationchange = () => {
+				setStateAnimate(true)
 				setStateDuration(audio_dom.duration)
 				getDuration(audio_dom, setStateDurationTime)
 			}
@@ -103,7 +106,8 @@ const Index = (props: IProps) => {
 						: 'var(--color_gradient)'}`
 				}}
 			>
-				{has_current && (
+				{has_current &&
+				state_animate && (
 					<div
 						className={`
                                           bg_cover
@@ -117,7 +121,7 @@ const Index = (props: IProps) => {
 							backgroundPosition: 'center center',
 							animationDuration: `${state_duration
 								? state_duration
-								: '200'}s`
+								: '0'}s`
 						}}
 					/>
 				)}
