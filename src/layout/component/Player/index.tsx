@@ -31,7 +31,7 @@ const Index = (props: IProps) => {
 	const audio = useRef<HTMLAudioElement>(null)
 	// const audio_ctx = useRef(new window.AudioContext())
 
-	usePlayer(audio, playing)
+	usePlayer(audio, playing, setStateAnimate)
 
 	useEffect(
 		() => {
@@ -50,10 +50,10 @@ const Index = (props: IProps) => {
 			audio_dom.src = song_url
 
 			audio_dom.ondurationchange = () => {
-				setStateAnimate(true)
 				setStateDuration(audio_dom.duration)
 				getDuration(audio_dom, setStateDurationTime)
 			}
+
 			audio_dom.ontimeupdate = () => {
 				const current = Math.floor(audio_dom.currentTime)
 
@@ -63,8 +63,8 @@ const Index = (props: IProps) => {
 			}
 		},
 		[ song_url ]
-	)
-
+      )
+      
 	useEffect(
 		() => {
 			const audio_dom = audio.current
@@ -83,7 +83,8 @@ const Index = (props: IProps) => {
 						setStateCurrentTime('')
 						setStateCurrent(0)
 						setStatePercent(0)
-						changeStatus(false)
+                                    changeStatus(false)
+                                    setStateAnimate(false)
 
 						clearInterval(timer)
 					}
