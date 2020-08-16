@@ -123,8 +123,6 @@ export default modelExtend(commonModal, {
 				type: 'updateState',
 				payload: { song_url: data[0].url }
 			})
-
-			store.set(`song_url_${id}`, data[0].url)
 		},
 		*getDefaultSong (_: any, { put }: any) {
 			const playlist_active_id = store.get('playlist_active_id')
@@ -141,17 +139,6 @@ export default modelExtend(commonModal, {
 				type: 'updateState',
 				payload: { current_song: songlist[songlist_active_item.index] }
 			})
-
-			const song_url = store.get(`song_url_${songlist_active_item.id}`)
-
-			if (song_url) {
-				yield put({
-					type: 'updateState',
-					payload: { song_url }
-				})
-
-				return
-			}
 
 			yield put({
 				type: 'getSongUrl',

@@ -162,19 +162,8 @@ const Index = ({
 					current_song: song,
 					playing: true
 				}
-			})
-
-			const song_url = store.get(`song_url_${id}`)
-
-			if (song_url) {
-				dispatch({
-					type: 'app/updateState',
-					payload: { song_url }
-				})
-
-				return
-			}
-
+                  })
+                  
 			dispatch({
 				type: 'app/getSongUrl',
 				payload: { id }
