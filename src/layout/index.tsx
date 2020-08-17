@@ -50,8 +50,8 @@ const Index = ({
 				payload: { phone, md5_password }
 			})
 		}
-      }
-      
+	}
+
 	const props_player = {
 		song_url,
 		current_song,
@@ -115,6 +115,60 @@ const Index = ({
 				type: 'app/updateState',
 				payload: { playing: !playing }
 			})
+		},
+		changeSong (type: 'prev' | 'next') {
+			const playlist = store.get('playlist')
+			const playlist_active_index = store.get('playlist_active_index')
+			const songlist_active_item = store.get('songlist_active_item')
+
+			if (!playlist) return
+			if (!playlist_active_index) return
+
+			const current_playlist: any = playlist[playlist_active_index]
+			const current_songlist: any = store.get(`songlist_${current_playlist.id}`)
+
+			if (!current_songlist) return
+
+			let current_song: any
+
+			if (!songlist_active_item) {
+				current_song = current_songlist[0]
+			} else {
+				if (type === 'prev') {
+					if (songlist_active_item.index === 0) return
+
+					current_song = current_songlist[songlist_active_item.index - 1]
+
+					store.set('songlist_active_item', {
+						index: songlist_active_item.index - 1,
+						id: current_song.id
+					})
+				}
+
+				if (type === 'next') {
+					if (songlist_active_item.index === current_songlist.length - 1) return
+
+					current_song = current_songlist[songlist_active_item.index + 1]
+
+					store.set('songlist_active_item', {
+						index: songlist_active_item.index + 1,
+						id: current_song.id
+					})
+				}
+			}
+
+			dispatch({
+				type: 'app/updateState',
+				payload: {
+					current_song,
+					playing: true
+				}
+			})
+
+			dispatch({
+				type: 'app/getSongUrl',
+				payload: { id: current_song.id }
+			})
 		}
 	}
 
@@ -162,8 +216,8 @@ const Index = ({
 					current_song: song,
 					playing: true
 				}
-                  })
-                  
+			})
+
 			dispatch({
 				type: 'app/getSongUrl',
 				payload: { id }

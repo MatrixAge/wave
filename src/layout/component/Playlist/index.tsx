@@ -199,7 +199,8 @@ const Index = (props: IProps) => {
 										onClick={() => {
 											store.remove(
 												'songlist_active_item'
-											)
+                                                                  )
+                                                                  
 											store.set(
 												'playlist_active_id',
 												data.id

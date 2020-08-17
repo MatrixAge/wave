@@ -16,10 +16,11 @@ interface IProps {
 	playing: boolean
 	showPlayList: () => void
 	changeStatus: (status?: boolean) => void
+	changeSong: (type: 'prev' | 'next') => void
 }
 
 const Index = (props: IProps) => {
-	const { song_url, current_song, playing, showPlayList, changeStatus } = props
+	const { song_url, current_song, playing, showPlayList, changeStatus, changeSong } = props
 	const has_current = Object.keys(current_song).length > 0
 
 	const [ state_duration_time, setStateDurationTime ] = useState<string>('')
@@ -55,16 +56,12 @@ const Index = (props: IProps) => {
 			}
 
 			audio_dom.ontimeupdate = () => {
-				const current = Math.floor(audio_dom.currentTime)
-
-				if (current === state_current) return
-
-				setStateCurrent(current)
+				setStateCurrent(Math.floor(audio_dom.currentTime))
 			}
 		},
 		[ song_url ]
-      )
-      
+	)
+
 	useEffect(
 		() => {
 			const audio_dom = audio.current
@@ -83,8 +80,8 @@ const Index = (props: IProps) => {
 						setStateCurrentTime('')
 						setStateCurrent(0)
 						setStatePercent(0)
-                                    changeStatus(false)
-                                    setStateAnimate(false)
+						changeStatus(false)
+						setStateAnimate(false)
 
 						clearInterval(timer)
 					}
@@ -204,7 +201,13 @@ const Index = (props: IProps) => {
 				</div>
 				<div className='controls_wrap h_100 absolute flex justify_center align_center'>
 					<div className='controls flex align_center'>
-						<StepBackwardOutlined className='prev cursor_point' />
+						<StepBackwardOutlined
+							className='prev cursor_point'
+							onClick={() => {
+								setStateAnimate(false)
+								changeSong('prev')
+							}}
+						/>
 						<div
 							className='status_wrap flex justify_center align_center cursor_point'
 							onClick={() => changeStatus()}
@@ -219,7 +222,13 @@ const Index = (props: IProps) => {
 								/>
 							)}
 						</div>
-						<StepForwardOutlined className='next cursor_point' />
+						<StepForwardOutlined
+							className='next cursor_point'
+							onClick={() => {
+								setStateAnimate(false)
+								changeSong('next')
+							}}
+						/>
 					</div>
 				</div>
 			</div>
