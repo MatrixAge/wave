@@ -262,7 +262,8 @@ const Index = (props: IProps) => {
 														index: index,
 														id: data.id
 													}
-												)
+                                                                        )
+                                                                        
 												setStateActiveSonglistItemId(
 													data.id
 												)

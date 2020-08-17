@@ -23,9 +23,13 @@
             "allowSyntheticDefaultImports": true
       },
       "include": [
+            "./*",
             "src/**/*",
             "config/**/*",
             ".umirc.ts",
             "typings/typings.d.ts"
+      ],
+      "exclude": [
+            "./node_modules/*"
       ]
 }

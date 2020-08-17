@@ -29,15 +29,16 @@ export const usePlayer = (
 					const res: any = await audio_dom.play()
 
 					setStateAnimate(true)
+                              
+                              if (res) return
 
-					if (res) return
-
-					audio_dom.oncanplay = () => {
-                                    setStateAnimate(true)
+                              audio_dom.oncanplay = () => {
+						setStateAnimate(true)
                                     
 						audio_dom.play().catch((e) => {
 							console.log(e)
 						})
+
 					}
 				} else {
 					audio_dom.pause()
