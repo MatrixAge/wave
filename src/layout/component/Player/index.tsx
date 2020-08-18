@@ -1,9 +1,16 @@
-import React, { memo, useState, useEffect, useRef } from 'react'
+import React, {
+	memo,
+	useState,
+	useEffect,
+	useRef,
+	useImperativeHandle,
+	forwardRef,
+	MutableRefObject
+} from 'react'
 import {
 	StepBackwardOutlined,
 	PauseOutlined,
 	StepForwardOutlined,
-	SoundOutlined,
 	UnorderedListOutlined
 } from '@ant-design/icons'
 import { getDuration, getCurrentTime } from './util'
@@ -19,7 +26,17 @@ interface IProps {
 	changeSong: (type: 'prev' | 'next') => void
 }
 
-const Index = (props: IProps) => {
+export interface IAudioContext extends AudioContext {
+	analyser?: AnalyserNode
+}
+
+const Index = (
+	props: IProps,
+	ref:
+		| ((instance: IAudioContext | null) => void)
+		| MutableRefObject<IAudioContext | null>
+		| null
+) => {
 	const { song_url, current_song, playing, showPlayList, changeStatus, changeSong } = props
 	const has_current = Object.keys(current_song).length > 0
 
@@ -30,7 +47,7 @@ const Index = (props: IProps) => {
 	const [ state_percent, setStatePercent ] = useState<number>(0)
 	const [ state_animate, setStateAnimate ] = useState<boolean>(false)
 	const audio = useRef<HTMLAudioElement>(null)
-	const context = useRef(new window.AudioContext())
+	const context = useRef<IAudioContext>(new window.AudioContext())
 
 	usePlayer(audio, playing, setStateAnimate)
 
@@ -48,63 +65,7 @@ const Index = (props: IProps) => {
 		source.connect(analyser)
 		analyser.connect(audio_ctx.destination)
 
-		setTimeout(() => {
-			const myCanvas: any = document.getElementById('myCanvas')
-			const myCanvas1: any = document.getElementById('myCanvas1')
-
-			if (!myCanvas) return
-			if (!myCanvas1) return
-
-			const canvasCtx = myCanvas.getContext('2d')
-			const canvasCtx1 = myCanvas1.getContext('2d')
-
-			const draw = () => {
-				var cwidth = myCanvas.width,
-					cheight = myCanvas.height,
-					cwidth1 = myCanvas1.width,
-					cheight1 = myCanvas1.height,
-					array = new Uint8Array(128)
-
-				analyser.getByteFrequencyData(array)
-				canvasCtx.clearRect(0, 0, cwidth, cheight)
-				canvasCtx1.clearRect(0, 0, cwidth1, cheight1)
-				canvasCtx1.beginPath()
-				canvasCtx1.arc(290, 290, 242, 0, 2 * Math.PI)
-				canvasCtx1.fillStyle = 'black'
-				canvasCtx1.fill()
-				canvasCtx1.closePath()
-
-				canvasCtx.fillStyle = 'white'
-
-				for (var i = 0; i < array.length; i++) {
-					var num = 0
-					num = num + array[i]
-					canvasCtx.beginPath()
-					canvasCtx.arc(100, 120, array[45] / 3, 0, 2 * Math.PI)
-					canvasCtx.arc(290, 120, array[110] / 3, 0, 2 * Math.PI)
-					canvasCtx.fillRect(i * 3, 280, 1, array[i] / 8)
-					canvasCtx.fill()
-					canvasCtx.closePath()
-
-					var rad
-					if (array[3] > 200) {
-						rad = array[3] - 210
-					} else {
-						rad = 0
-					}
-
-					canvasCtx1.beginPath()
-					canvasCtx1.arc(290, 290, 240 + rad, 0, 2 * Math.PI)
-					canvasCtx1.fillStyle = 'black'
-					canvasCtx1.fill()
-					canvasCtx1.closePath()
-				}
-
-				requestAnimationFrame(draw)
-			}
-
-			draw()
-		}, 3000)
+		audio_ctx.analyser = analyser
 	}, [])
 
 	useEffect(
@@ -163,6 +124,8 @@ const Index = (props: IProps) => {
 		},
 		[ state_current ]
 	)
+
+	useImperativeHandle(ref, () => context.current)
 
 	return (
 		<div
@@ -310,4 +273,4 @@ const Index = (props: IProps) => {
 	)
 }
 
-export default memo(Index)
+export default memo(forwardRef(Index))
