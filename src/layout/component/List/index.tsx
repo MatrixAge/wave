@@ -20,19 +20,19 @@ const wave_items = [
 		bg_top: 'linear-gradient(30deg, rgb(168, 243, 135), rgb(22, 214, 250))'
 	},
 	{
-		bg_top: '#333333'
+		bg_top: 'linear-gradient(0deg, rgb(123, 223, 242), rgb(242, 181, 212))'
 	},
 	{
 		bg_top: 'linear-gradient(0deg, rgb(178, 247, 239), rgb(123, 223, 242))'
 	},
 	{
-		bg_top: 'linear-gradient(0deg, rgb(239, 247, 246), rgb(178, 247, 239))'
+		bg_top: 'linear-gradient(0deg, rgb(215, 241, 240), rgb(179, 219, 216))'
 	},
 	{
-		bg_top: 'linear-gradient(0deg, rgb(242, 181, 212), rgb(247, 214, 224))'
+		bg_top: 'linear-gradient(0deg, rgb(254, 229, 224), rgb(255, 191, 197))'
 	},
 	{
-		bg_top: 'linear-gradient(0deg, rgb(247, 214, 224), rgb(239, 247, 246))'
+		bg_top: 'linear-gradient(0deg, rgb(236, 225, 201), rgb(229, 203, 147))'
 	}
 ]
 
@@ -61,7 +61,7 @@ const Index = (props: IProps) => {
 
 	const getBgTop = (index: number): string => {
 		if (state_active_index !== null) {
-			return `rgba(255,255,255,${1 / 12 * (index + 1)})`
+			return `rgba(255,255,255,${1 / 9 * Math.abs(state_active_index - index)})`
 		} else {
 			return `rgba(255,255,255,${1 / 9 * (index + 1)})`
 		}
@@ -93,7 +93,9 @@ const Index = (props: IProps) => {
 									? 9 - Math.abs(state_active_index - index)
 									: 0,
 							animationDuration: `${1.5 - index * 0.01}s`,
-							animationDelay: `${0 + index * 0.08}s`
+							animationDelay: `${state_active_index !== null
+								? 0
+								: 0 + index * 0.08}s`
 						}}
 						onMouseEnter={() => setStateActiveIndex(index)}
 						onClick={() => clickWaveItem()}

@@ -122,10 +122,7 @@ export default modelExtend(commonModal, {
 
 			yield put({
 				type: 'updateState',
-				payload: {
-					song_url: data[0].url,
-					playing: true
-				}
+				payload: { song_url: data[0].url }
 			})
 		},
 		*getDefaultSong (_: any, { put }: any) {

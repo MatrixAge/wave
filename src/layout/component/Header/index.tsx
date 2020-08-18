@@ -149,11 +149,11 @@ const Index = (props: IProps) => {
 									key={item.class}
 								>
 									<div className='bg absolute w_100 h_100' />
-									<div className='content relative w_100 border_box h_100 flex flex_column justify_center align_center transition_normal'>
-										<span className='name text_center'>
+									<div className='content relative w_100 border_box h_100 flex justify_between align_center transition_normal'>
+										<span className='name'>
 											{item.name}
 										</span>
-										<div className='star_wrap absolute flex align_center'>
+										<div className='star_wrap flex align_center'>
 											<StarOutlined
 												style={{
 													fontSize: '11px'

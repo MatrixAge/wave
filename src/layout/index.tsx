@@ -178,7 +178,7 @@ const Index = ({
 				type: 'app/updateState',
 				payload: {
 					current_song,
-					playing: false
+					playing: true
 				}
 			})
 
@@ -231,7 +231,7 @@ const Index = ({
 				type: 'app/updateState',
 				payload: {
 					current_song: song,
-					play: false
+					playing: true
 				}
 			})
 
