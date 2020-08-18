@@ -25,8 +25,24 @@
       }
 }
 
+@keyframes clicked {
+      from {
+            bottom: 0;
+      }
+
+      to {
+            bottom: -96px;
+      }
+}
+
 ._local {
       z-index: 2;
+
+      &.clicked {
+            :local {
+                  animation: clicked ease-in-out 0.48s forwards;
+            }
+      }
 
       :global {
             #audio {

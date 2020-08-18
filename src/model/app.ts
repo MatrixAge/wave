@@ -16,7 +16,8 @@ export default modelExtend(commonModal, {
 		songlist: [],
 		song_url: '',
 		current_song: {},
-		playing: false
+		playing: false,
+		clicked: false
 	},
 
 	subscriptions: {

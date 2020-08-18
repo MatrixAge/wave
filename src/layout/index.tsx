@@ -23,17 +23,29 @@ const Index = ({
 	songlist,
 	song_url,
 	current_song,
-	playing
+	playing,
+	clicked
 }: any) => {
 	const audio_ctx = useRef<IAudioContext>(null)
 
 	const props_header = {
+		clicked,
 		login,
 		profile,
 		showLogin: () => {
 			dispatch({
 				type: 'app/updateState',
 				payload: { visible_login: true }
+			})
+		}
+	}
+
+	const props_list = {
+		clicked,
+		clickWaveItem: () => {
+			dispatch({
+				type: 'app/updateState',
+				payload: { clicked: true }
 			})
 		}
 	}
@@ -56,6 +68,7 @@ const Index = ({
 	}
 
 	const props_player = {
+		clicked,
 		ref: audio_ctx,
 		song_url,
 		current_song,
@@ -238,7 +251,7 @@ const Index = ({
 	return (
 		<div className={`${styles._local} w_100 border_box flex flex_column align_center`}>
 			<Header {...props_header} />
-			<List />
+			<List {...props_list} />
 			<Player {...props_player} />
 			<Login {...props_login} />
 			<Playlist {...props_playlist} />
@@ -261,7 +274,8 @@ export default memo(
 				songlist,
 				song_url,
 				current_song,
-				playing
+				playing,
+				clicked
 			},
 			loading
 		}: any) => {
@@ -279,7 +293,8 @@ export default memo(
 				songlist,
 				song_url,
 				current_song,
-				playing
+				playing,
+				clicked
 			}
 		}
 	)(Index)

@@ -20,6 +20,16 @@
       }
 }
 
+@keyframes clicked {
+      from {
+            top: 0;
+      }
+
+      to {
+            top: -72px;
+      }
+}
+
 ._local {
       width: 100%;
 
@@ -55,6 +65,12 @@
                   backdrop-filter: blur(5px);
                   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
                   z-index: 2;
+
+                  &.clicked {
+                        :local {
+                              animation: clicked ease-in-out 0.48s forwards;
+                        }
+                  }
 
                   .header {
                         width: var(--width_header);
@@ -93,10 +109,6 @@
                               }
                         }
                   }
-            }
-
-            .header_wrap_placeholder {
-                  height: @height;
             }
 
             .mask {

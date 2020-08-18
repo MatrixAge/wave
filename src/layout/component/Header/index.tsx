@@ -43,23 +43,34 @@ const related_items: Array<IRelatedItem> = [
 ]
 
 interface IProps {
+	clicked: boolean
 	login: boolean
 	profile: any
 	showLogin: () => void
 }
 
 const Index = (props: IProps) => {
-	const { login, profile, showLogin } = props
+	const { clicked, login, profile, showLogin } = props
 	const [ state_visible_info, setStateVisibleInfo ] = useState(false)
 
 	useDisableScroll(state_visible_info, 'modal_more')
 
 	return (
 		<div className={`${styles._local} w_100 border_box`}>
-			<div className='related_wrap w_100 border_box flex justify_center align_center fixed cursor_point transition_normal' onClick={() => setStateVisibleInfo(true)}>
-				<QuestionOutlined className='icon transition_normal' />
-			</div>
-			<div className='header_wrap w_100 border_box flex justify_center fixed top_0 left_0'>
+			{!clicked && (
+				<div
+					className='related_wrap w_100 border_box flex justify_center align_center fixed cursor_point transition_normal'
+					onClick={() => setStateVisibleInfo(true)}
+				>
+					<QuestionOutlined className='icon transition_normal' />
+				</div>
+			)}
+			<div
+				className={`
+                              header_wrap w_100 border_box flex justify_center fixed top_0 left_0
+                              ${clicked ? 'clicked' : ''}
+                        `}
+			>
 				<div className='header border_box flex justify_between align_center'>
 					<img
 						className='logo cursor_point transition_normal'
@@ -90,7 +101,6 @@ const Index = (props: IProps) => {
 					</div>
 				</div>
 			</div>
-			<div className='header_wrap_placeholder w_100 border_box' />
 			{state_visible_info && (
 				<div className='mask w_100vw h_100vh fixed top_0 left_0' />
 			)}

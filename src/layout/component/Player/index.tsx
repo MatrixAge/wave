@@ -18,6 +18,7 @@ import { usePlayer } from './util/hook'
 import styles from './index.less'
 
 interface IProps {
+	clicked: boolean
 	song_url: string
 	current_song: any
 	playing: boolean
@@ -37,7 +38,15 @@ const Index = (
 		| MutableRefObject<IAudioContext | null>
 		| null
 ) => {
-	const { song_url, current_song, playing, showPlayList, changeStatus, changeSong } = props
+	const {
+		clicked,
+		song_url,
+		current_song,
+		playing,
+		showPlayList,
+		changeStatus,
+		changeSong
+	} = props
 	const has_current = Object.keys(current_song).length > 0
 
 	const [ state_duration_time, setStateDurationTime ] = useState<string>('')
@@ -129,7 +138,11 @@ const Index = (
 
 	return (
 		<div
-			className={`${styles._local} w_100 border_box flex justify_center fixed left_0 bottom_0`}
+			className={`
+                        ${styles._local} 
+                        ${clicked ? styles.clicked : ''} 
+                        w_100 border_box flex justify_center fixed left_0 bottom_0
+                  `}
 		>
 			<audio id='audio' ref={audio} preload='auto' crossOrigin='anonymous' />
 			<div

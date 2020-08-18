@@ -1,37 +1,43 @@
 import React, { memo, useState, useEffect } from 'react'
 import styles from './index.less'
 
+interface IProps {
+	clicked: boolean
+	clickWaveItem: () => void
+}
+
 const wave_items = [
 	{
-		bg_top: '#ff4d4d'
+		bg_top: 'linear-gradient(45deg, rgb(175, 135, 206), rgb(234, 26, 127))'
 	},
 	{
-		bg_top: '#ff4d4d'
+		bg_top: 'linear-gradient(30deg, rgb(234, 26, 127), rgb(254, 198, 3))'
 	},
 	{
-		bg_top: '#ff4d4d'
+		bg_top: 'linear-gradient(30deg, rgb(254, 198, 3), rgb(168, 243, 135))'
 	},
 	{
-		bg_top: '#ff4d4d'
+		bg_top: 'linear-gradient(30deg, rgb(168, 243, 135), rgb(22, 214, 250))'
 	},
 	{
-		bg_top: '#ff4d4d'
+		bg_top: '#333333'
 	},
 	{
-		bg_top: '#ff4d4d'
+		bg_top: 'linear-gradient(0deg, rgb(178, 247, 239), rgb(123, 223, 242))'
 	},
 	{
-		bg_top: '#ff4d4d'
+		bg_top: 'linear-gradient(0deg, rgb(239, 247, 246), rgb(178, 247, 239))'
 	},
 	{
-		bg_top: '#ff4d4d'
+		bg_top: 'linear-gradient(0deg, rgb(242, 181, 212), rgb(247, 214, 224))'
 	},
 	{
-		bg_top: '#ff4d4d'
+		bg_top: 'linear-gradient(0deg, rgb(247, 214, 224), rgb(239, 247, 246))'
 	}
 ]
 
-const Index = () => {
+const Index = (props: IProps) => {
+	const { clicked, clickWaveItem } = props
 	const [ state_mounted, setStateMounted ] = useState<boolean>(false)
 	const [ state_active_index, setStateActiveIndex ] = useState<number | null>(null)
 
@@ -71,12 +77,13 @@ const Index = () => {
 					setStateActiveIndex(null)
 				}}
 			>
-				{wave_items.map((item, index) => (
+				{wave_items.map((_, index) => (
 					<div
 						className={`
                                           wave_item 
                                           ${getItemClass(index)} 
-                                          ${state_mounted ? 'mounted' : 'animation'} 
+                                          ${state_mounted ? 'mounted' : 'animation disabled'} 
+                                          ${clicked ? 'clicked' : ''} 
                                           ${state_active_index === index ? 'active' : ''} 
                                           border_box flex justify_center align_center cursor_point relative
                                     `}
@@ -88,9 +95,8 @@ const Index = () => {
 							animationDuration: `${1.5 - index * 0.01}s`,
 							animationDelay: `${0 + index * 0.08}s`
 						}}
-						onMouseEnter={() => {
-							setStateActiveIndex(index)
-						}}
+						onMouseEnter={() => setStateActiveIndex(index)}
+						onClick={() => clickWaveItem()}
 						key={index}
 					>
 						<div
@@ -98,9 +104,9 @@ const Index = () => {
 							style={{
 								zIndex: 1,
 								opacity: `${state_active_index !== null ? 1 : 0}`,
-								backgroundColor: `${state_active_index !== null
+								background: `${state_active_index !== null
 									? wave_items[state_active_index].bg_top
-									: 'transparent'}`
+									: ''}`
 							}}
 						/>
 						<div
