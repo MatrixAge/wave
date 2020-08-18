@@ -1,3 +1,13 @@
+@keyframes show {
+      from {
+            transform: scaleY(0);
+      }
+
+      to {
+            transform: scaleY(1);
+      }
+}
+
 ._local {
       z-index: 1;
 
@@ -8,16 +18,27 @@
                   .wave_item {
                         width: 100%/9;
                         height: 380px;
-                        background-color: white;
-                        margin-right: 4px;
-                        transition: all cubic-bezier(0.86, 0, 0.07, 1) 0.4s;
+                        transition: all cubic-bezier(.54, .18, 0, 1) 0.5s;
+                        transform: scaleY(0);
 
-                        &:last-child {
-                              margin-right: 0;
+                        &.mounted {
+                              transform: scaleY(1);
+                        }
+
+                        &.animation {
+                              :local {
+                                    animation: show cubic-bezier(1, 0, .53, 1) forwards;
+                              }
+                        }
+
+                        &.active {
+                              .bg_top {
+                                    opacity: 0;
+                              }
                         }
 
                         &.item_0 {
-                              width: 720px;
+                              width: 760px;
                               transform: scaleY(1.2);
                               z-index: 2;
 
@@ -26,11 +47,11 @@
                               }
 
                               &.offset_2 {
-                                    width: 720px - 40px;
+                                    width: 720px - 20px;
                               }
 
                               &.offset_3 {
-                                    width: 720px - 80px;
+                                    width: 720px - 60px;
                               }
 
                               &.offset_4 {
@@ -40,42 +61,50 @@
 
                         &.item_1 {
                               width: calc(~'100% / 8 - 10px');
-                              transform: scaleY(1);
+                              transform: scaleX(1.02) scaleY(1);
                         }
 
                         &.item_2 {
                               width: calc(~'100% / 8 - 20px');
-                              transform: scaleY(0.995);
+                              transform: scaleX(1.02) scaleY(0.995);
                         }
 
                         &.item_3 {
                               width: calc(~'100% / 8 - 30px');
-                              transform: scaleY(0.99);
+                              transform: scaleX(1.02) scaleY(0.99);
                         }
 
                         &.item_4 {
                               width: calc(~'100% / 8 - 40px');
-                              transform: scaleY(0.985);
+                              transform: scaleX(1.02) scaleY(0.985);
                         }
 
                         &.item_5 {
                               width: calc(~'100% / 8 - 50px');
-                              transform: scaleY(0.98);
+                              transform: scaleX(1.02) scaleY(0.98);
                         }
 
                         &.item_6 {
                               width: calc(~'100% / 8 - 60px');
-                              transform: scaleY(0.975);
+                              transform: scaleX(1.02) scaleY(0.975);
                         }
 
                         &.item_7 {
                               width: calc(~'100% / 8 - 70px');
-                              transform: scaleY(0.97);
+                              transform: scaleX(1.02) scaleY(0.97);
                         }
 
                         &.item_8 {
                               width: calc(~'100% / 8 - 80px');
-                              transform: scaleY(0.965);
+                              transform: scaleX(1.02) scaleY(0.965);
+                        }
+
+                        .bg_top {
+                              transition: all cubic-bezier(.54, .18, 0, 1) 0.5s;
+                        }
+
+                        .bg_bottom {
+                              transition: all cubic-bezier(.54, .18, 0, 1) 0.5s;
                         }
                   }
             }
