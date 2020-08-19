@@ -7,7 +7,6 @@ import List from './component/List'
 import Player from './component/Player'
 import Playlist from './component/Playlist'
 import Login from './component/Login'
-import styles from './index.less'
 import { IAudioContext } from './component/Player'
 
 const Index = ({

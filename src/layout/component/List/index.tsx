@@ -8,31 +8,31 @@ interface IProps {
 
 const wave_items = [
 	{
-		bg_top: 'linear-gradient(45deg, rgb(175, 135, 206), rgb(234, 26, 127))'
+		bg_top: '#F44336'
 	},
 	{
-		bg_top: 'linear-gradient(30deg, rgb(234, 26, 127), rgb(254, 198, 3))'
+		bg_top: '#FF9800'
+      },
+      {
+		bg_top: '#D3C22F'
 	},
 	{
-		bg_top: 'linear-gradient(30deg, rgb(254, 198, 3), rgb(168, 243, 135))'
+		bg_top: '#4CAF50'
 	},
 	{
-		bg_top: 'linear-gradient(30deg, rgb(168, 243, 135), rgb(22, 214, 250))'
+		bg_top: '#00BCD4'
 	},
 	{
-		bg_top: 'linear-gradient(0deg, rgb(123, 223, 242), rgb(242, 181, 212))'
+		bg_top: '#448AFF'
 	},
 	{
-		bg_top: 'linear-gradient(0deg, rgb(178, 247, 239), rgb(123, 223, 242))'
+		bg_top: '#E040FB'
 	},
 	{
-		bg_top: 'linear-gradient(0deg, rgb(215, 241, 240), rgb(179, 219, 216))'
+		bg_top: '#7C4DFF'
 	},
 	{
-		bg_top: 'linear-gradient(0deg, rgb(254, 229, 224), rgb(255, 191, 197))'
-	},
-	{
-		bg_top: 'linear-gradient(0deg, rgb(236, 225, 201), rgb(229, 203, 147))'
+		bg_top: '#3F51B5'
 	}
 ]
 
