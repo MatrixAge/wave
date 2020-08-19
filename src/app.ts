@@ -2,9 +2,10 @@ import { RequestConfig } from 'umi'
 import { message as _message } from 'antd'
 import store from 'store'
 
-const BASE_URL = 'http://linklink.in:3000'
+const BASE_URL = 'https://linklink.in'
 
 export const request: RequestConfig = {
+      prefix:BASE_URL,
 	timeout: 8000,
 	requestInterceptors: [
 		(url: string) => {
@@ -13,7 +14,7 @@ export const request: RequestConfig = {
 			const { cookie } = store.get('userinfo')
 
 			return {
-				url: `${BASE_URL}${url}?cookie=${cookie}`
+				url: `${url}?cookie=${cookie}`
 			}
 		}
 	],
