@@ -33,7 +33,7 @@ export default defineConfig({
 	title: 'Wave',
 	singular: true,
 	dynamicImport: {},
-	favicon: 'favicon.ico',
+	favicon: '/favicon.ico',
 	dva: { immer: true, hmr: true },
 	alias: { '@root': path.join(__dirname, './') },
 	nodeModulesTransform: { type: 'none', exclude: [] },
