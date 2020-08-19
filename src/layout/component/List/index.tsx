@@ -7,13 +7,16 @@ interface IProps {
 }
 
 const wave_items = [
+      {
+		bg_top: '#E91E63'
+	},
 	{
 		bg_top: '#F44336'
 	},
 	{
 		bg_top: '#FF9800'
-      },
-      {
+	},
+	{
 		bg_top: '#D3C22F'
 	},
 	{
@@ -30,9 +33,6 @@ const wave_items = [
 	},
 	{
 		bg_top: '#7C4DFF'
-	},
-	{
-		bg_top: '#3F51B5'
 	}
 ]
 
@@ -110,7 +110,7 @@ const Index = (props: IProps) => {
 						<div
 							className='bg_top absolute w_100 h_100'
 							style={{
-                                                zIndex: 3,
+								zIndex: 3,
 								backgroundColor: `${getBgTop(index)}`
 							}}
 						/>
