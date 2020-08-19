@@ -37,13 +37,13 @@
 
                         &.clicked {
                               :local {
-                                    animation: hide ease-in-out 0.48s forwards !important;
+                                    animation: hide ease-in 0.48s forwards !important;
                                     animation-delay: 0 !important;
                               }
 
                               &.active {
                                     :local {
-                                          animation-duration: 0.6s !important;
+                                          animation: hide ease-in 0.6s forwards !important;
                                     }
                               }
                         }
@@ -69,7 +69,6 @@
                         &.item_0 {
                               width: 760px;
                               transform: scaleY(1.2);
-                              z-index: 2;
 
                               &.offset_1 {
                                     width: 720px;

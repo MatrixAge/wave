@@ -88,10 +88,6 @@ const Index = (props: IProps) => {
                                           border_box flex justify_center align_center cursor_point relative
                                     `}
 						style={{
-							zIndex:
-								state_active_index !== null
-									? 9 - Math.abs(state_active_index - index)
-									: 0,
 							animationDuration: `${1.5 - index * 0.01}s`,
 							animationDelay: `${state_active_index !== null
 								? 0
@@ -104,7 +100,7 @@ const Index = (props: IProps) => {
 						<div
 							className='bg_bottom absolute w_100 h_100'
 							style={{
-								zIndex: 1,
+								zIndex: 2,
 								opacity: `${state_active_index !== null ? 1 : 0}`,
 								background: `${state_active_index !== null
 									? wave_items[state_active_index].bg_top
@@ -114,7 +110,7 @@ const Index = (props: IProps) => {
 						<div
 							className='bg_top absolute w_100 h_100'
 							style={{
-								zIndex: 2,
+                                                zIndex: 3,
 								backgroundColor: `${getBgTop(index)}`
 							}}
 						/>

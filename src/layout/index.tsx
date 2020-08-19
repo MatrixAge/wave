@@ -136,10 +136,10 @@ const Index = ({
 		changeSong (type: 'prev' | 'next') {
 			const playlist = store.get('playlist')
 			const playlist_active_index = store.get('playlist_active_index')
-			const songlist_active_item = store.get('songlist_active_item')
-
+                  const songlist_active_item = store.get('songlist_active_item')
+                  
 			if (!playlist) return
-			if (!playlist_active_index) return
+                  if (typeof playlist_active_index !=='number') return
 
 			const current_playlist: any = playlist[playlist_active_index]
 			const current_songlist: any = store.get(`songlist_${current_playlist.id}`)
@@ -249,7 +249,7 @@ const Index = ({
 	}
 
 	return (
-		<div className={`${styles._local} w_100 border_box flex flex_column align_center`}>
+		<div className='w_100 border_box flex flex_column align_center'>
 			<Header {...props_header} />
 			<List {...props_list} />
 			<Player {...props_player} />

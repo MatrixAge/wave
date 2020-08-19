@@ -63,7 +63,7 @@ const Index = (props: IProps) => {
 				const playlist_active_index = store.get('playlist_active_index')
 				const playlist_active_id = store.get('playlist_active_id')
 
-				if (playlist_active_index) {
+				if (typeof playlist_active_index === 'number') {
 					if (playlist_active_id === playlist[playlist_active_index].id) {
 						setStateActivePlaylistItemId(playlist_active_id)
 
@@ -199,8 +199,8 @@ const Index = (props: IProps) => {
 										onClick={() => {
 											store.remove(
 												'songlist_active_item'
-                                                                  )
-                                                                  
+											)
+
 											store.set(
 												'playlist_active_id',
 												data.id
@@ -262,8 +262,8 @@ const Index = (props: IProps) => {
 														index: index,
 														id: data.id
 													}
-                                                                        )
-                                                                        
+												)
+
 												setStateActiveSonglistItemId(
 													data.id
 												)
