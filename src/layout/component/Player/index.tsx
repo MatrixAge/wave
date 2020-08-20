@@ -56,9 +56,14 @@ const Index = (
 	const [ state_percent, setStatePercent ] = useState<number>(0)
 	const [ state_animate, setStateAnimate ] = useState<boolean>(false)
 	const audio = useRef<HTMLAudioElement>(null)
-	const context = useRef<IAudioContext>(
-		new window.AudioContext() || new window.webkitAudioContext()
-	)
+
+	const getAudioContext = () => {
+		if (window.AudioContext) return new window.AudioContext()
+		if (window.webkitAudioContext) return new window.webkitAudioContext()
+
+		return false
+	}
+	const context = useRef<IAudioContext | undefined | false>(getAudioContext())
 
 	usePlayer(audio, playing, setStateAnimate)
 
