@@ -58,6 +58,7 @@ const Index = (
 	const [ state_percent, setStatePercent ] = useState<number>(0)
 	const [ state_animate, setStateAnimate ] = useState<boolean>(false)
 	const [ state_disabled, setStateDisabled ] = useState<boolean>(true)
+	const [ state_timer, setStateTimer ] = useState<NodeJS.Timer>()
 
 	const getAudioContext = () => {
 		if (window.AudioContext) return new window.AudioContext()
@@ -150,12 +151,22 @@ const Index = (
 						clearInterval(timer)
 					}
 				}, 30)
+
+				setStateTimer(timer)
 			}
 		},
 		[ state_current ]
 	)
 
 	useImperativeHandle(ref, () => context.current)
+
+	const onPrevNext = (type: 'prev' | 'next') => {
+		clearInterval(Number(state_timer))
+
+		setStatePercent(0)
+		setStateAnimate(false)
+		changeSong(type)
+	}
 
 	return (
 		<div
@@ -277,11 +288,7 @@ const Index = (
 					<div className='controls flex align_center'>
 						<StepBackwardOutlined
 							className='prev cursor_point'
-							onClick={() => {
-								setStatePercent(0)
-								setStateAnimate(false)
-								changeSong('prev')
-							}}
+							onClick={() => onPrevNext('prev')}
 						/>
 						<div
 							className='status_wrap flex justify_center align_center cursor_point'
@@ -299,11 +306,7 @@ const Index = (
 						</div>
 						<StepForwardOutlined
 							className='next cursor_point'
-							onClick={() => {
-								setStatePercent(0)
-								setStateAnimate(false)
-								changeSong('next')
-							}}
+							onClick={() => onPrevNext('next')}
 						/>
 					</div>
 				</div>
