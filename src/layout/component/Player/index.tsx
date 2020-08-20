@@ -72,7 +72,9 @@ const Index = (
 		const audio_ctx = context.current
 
 		if (!audio_dom) return
-		if (!audio_ctx) return
+            if (!audio_ctx) return
+            
+            audio_dom.click()
 
 		const source = audio_ctx.createMediaElementSource(audio_dom)
 		const analyser = audio_ctx.createAnalyser()
@@ -81,7 +83,7 @@ const Index = (
 		source.connect(analyser)
 		analyser.connect(audio_ctx.destination)
 
-		audio_ctx.analyser = analyser
+            audio_ctx.analyser = analyser
 	}, [])
 
 	useEffect(

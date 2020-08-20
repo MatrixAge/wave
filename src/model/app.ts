@@ -47,7 +47,7 @@ export default modelExtend(commonModal, {
 
 			store.set('userinfo', res)
 		},
-		*refresh (_: any, { call, put }: any) {
+            *refresh(_: any, { call, put }: any) {
 			const userinfo = store.get('userinfo')
 
 			if (!userinfo) return
@@ -70,6 +70,8 @@ export default modelExtend(commonModal, {
 					payload: { login: false }
 				})
 			}
+
+			yield put({ type: 'getDefaultSong' })
 		},
 		*getPlaylist (_: any, { call, put }: any) {
 			const { profile: { userId } } = store.get('userinfo')
