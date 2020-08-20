@@ -18,6 +18,7 @@ import { usePlayer } from './util/hook'
 import styles from './index.less'
 
 interface IProps {
+	login: boolean
 	clicked: boolean
 	song_url: string
 	current_song: any
@@ -39,6 +40,7 @@ const Index = (
 		| null
 ) => {
 	const {
+		login,
 		clicked,
 		song_url,
 		current_song,
@@ -69,28 +71,32 @@ const Index = (
 
 	usePlayer(audio, playing, setStateAnimate)
 
-	useEffect(() => {
-		const audio_dom = audio.current
-		const audio_ctx = context.current
+	useEffect(
+		() => {
+			const audio_dom = audio.current
+			const audio_ctx = context.current
 
-		if (!audio_dom) return
-		if (!audio_ctx) return
+			if (!login) return
+			if (!audio_dom) return
+			if (!audio_ctx) return
 
-		audio_dom.click()
+			audio_dom.click()
 
-		const source = audio_ctx.createMediaElementSource(audio_dom)
-		const analyser = audio_ctx.createAnalyser()
+			const source = audio_ctx.createMediaElementSource(audio_dom)
+			const analyser = audio_ctx.createAnalyser()
 
-		analyser.fftSize = 4096
-		source.connect(analyser)
-		analyser.connect(audio_ctx.destination)
+			analyser.fftSize = 4096
+			source.connect(analyser)
+			analyser.connect(audio_ctx.destination)
 
-		audio_ctx.analyser = analyser
+			audio_ctx.analyser = analyser
 
-		setTimeout(() => {
-			setStateDisabled(false)
-		}, 2000)
-	}, [])
+			setTimeout(() => {
+				setStateDisabled(false)
+			}, 1000)
+		},
+		[ login ]
+	)
 
 	useEffect(
 		() => {

@@ -2,6 +2,7 @@ import React, { memo, useRef } from 'react'
 import { connect } from 'umi'
 import { message } from 'antd'
 import store from 'store'
+import Loader from '@/component/Loader'
 import Header from './component/Header'
 import List from './component/List'
 import Player from './component/Player'
@@ -12,8 +13,8 @@ import { IAudioContext } from './component/Player'
 const Index = ({
 	children,
 	dispatch,
-      loading_login,
-      loading_getPlaylist,
+	loading_login,
+	loading_getPlaylist,
 	loading_getPlaylistDetail,
 	login,
 	profile,
@@ -68,6 +69,7 @@ const Index = ({
 	}
 
 	const props_player = {
+		login,
 		clicked,
 		ref: audio_ctx,
 		song_url,
@@ -255,7 +257,8 @@ const Index = ({
 			<List {...props_list} />
 			<Player {...props_player} />
 			<Login {...props_login} />
-			<Playlist {...props_playlist} />
+                  <Playlist {...props_playlist} />
+                  <Loader maskVisible visible={!login} />
 			{React.Children.map(children, (child) =>
 				React.cloneElement(child, { audio_ctx })
 			)}
