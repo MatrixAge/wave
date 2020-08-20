@@ -6,7 +6,6 @@ const BASE_URL = 'https://linklink.in/wave'
 
 export const request: RequestConfig = {
 	prefix: BASE_URL,
-	timeout: 8000,
 	requestInterceptors: [
 		(url: string) => {
 			if (url === '/login/cellphone') return { url: `${BASE_URL}${url}` }
