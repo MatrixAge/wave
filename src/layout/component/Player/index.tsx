@@ -35,7 +35,7 @@ const Index = (
 	props: IProps,
 	ref:
 		| ((instance: IAudioContext | null) => void)
-		| MutableRefObject<IAudioContext | null>
+		| MutableRefObject<IAudioContext | null | undefined | false>
 		| null
 ) => {
 	const {

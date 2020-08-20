@@ -12,7 +12,8 @@ import { IAudioContext } from './component/Player'
 const Index = ({
 	children,
 	dispatch,
-	loading_login,
+      loading_login,
+      loading_getPlaylist,
 	loading_getPlaylistDetail,
 	login,
 	profile,
@@ -135,10 +136,10 @@ const Index = ({
 		changeSong (type: 'prev' | 'next') {
 			const playlist = store.get('playlist')
 			const playlist_active_index = store.get('playlist_active_index')
-                  const songlist_active_item = store.get('songlist_active_item')
-                  
+			const songlist_active_item = store.get('songlist_active_item')
+
 			if (!playlist) return
-                  if (typeof playlist_active_index !=='number') return
+			if (typeof playlist_active_index !== 'number') return
 
 			const current_playlist: any = playlist[playlist_active_index]
 			const current_songlist: any = store.get(`songlist_${current_playlist.id}`)
@@ -192,7 +193,8 @@ const Index = ({
 		visible: visible_playlist,
 		playlist,
 		songlist,
-		loading: loading_getPlaylistDetail,
+		loading_playlist: loading_getPlaylist,
+		loading_songlist: loading_getPlaylistDetail,
 		hidePlayList: () => {
 			dispatch({
 				type: 'app/updateState',
@@ -279,10 +281,12 @@ export default memo(
 			loading
 		}: any) => {
 			const loading_login = loading.effects['app/login']
+			const loading_getPlaylist = loading.effects['app/getPlaylist']
 			const loading_getPlaylistDetail = loading.effects['app/getPlaylistDetail']
 
 			return {
 				loading_login,
+				loading_getPlaylist,
 				loading_getPlaylistDetail,
 				login,
 				profile,

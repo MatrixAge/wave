@@ -16,7 +16,8 @@ const { confirm } = Modal
 
 interface IProps {
 	visible: boolean
-	loading: boolean
+	loading_playlist: boolean
+	loading_songlist: boolean
 	playlist: Array<any>
 	songlist: Array<any>
 	hidePlayList: () => void
@@ -29,8 +30,9 @@ interface IProps {
 
 const Index = (props: IProps) => {
 	const {
-		visible,
-		loading,
+            visible,
+            loading_playlist,
+		loading_songlist,
 		playlist,
 		songlist,
 		hidePlayList,
@@ -181,13 +183,23 @@ const Index = (props: IProps) => {
 							className='playlist_wrap border_box'
 							{...p_list.containerProps}
 						>
-							<div
-								className='playlist h_100 border_box flex flex_column'
-								{...p_list.wrapperProps}
-							>
-								{p_list.list.map(({ data, index }) => (
-									<div
-										className={`
+							{loading_playlist ? (
+								<div className='loading_wrap w_100 h_100 flex justify_center align_center'>
+									<LoadingOutlined
+										style={{
+											fontSize: '24px',
+											color: 'white'
+										}}
+									/>
+								</div>
+							) : (
+								<div
+									className='playlist h_100 border_box flex flex_column'
+									{...p_list.wrapperProps}
+								>
+									{p_list.list.map(({ data, index }) => (
+										<div
+											className={`
                                                                               playlist_item 
                                                                               w_100 border_box flex align_center
                                                                               ${data.id ===
@@ -195,44 +207,45 @@ const Index = (props: IProps) => {
 														? 'active'
 														: ''}
                                                                         `}
-										key={index}
-										onClick={() => {
-											store.remove(
-												'songlist_active_item'
-											)
+											key={index}
+											onClick={() => {
+												store.remove(
+													'songlist_active_item'
+												)
 
-											store.set(
-												'playlist_active_id',
-												data.id
-											)
-											store.set(
-												'playlist_active_index',
-												index
-											)
+												store.set(
+													'playlist_active_id',
+													data.id
+												)
+												store.set(
+													'playlist_active_index',
+													index
+												)
 
-											setStateActivePlaylistItemId(
-												data.id
-											)
-											getPlaylistDetail(data.id)
-										}}
-									>
-										<img
-											className='icon_playlist'
-											src={require('@/image/icon_playlist.svg')}
-											alt='icon_playlist'
-										/>
-										<span className='list_name line_clamp_1'>
-											{data.name}
-										</span>
-									</div>
-								))}
-							</div>
+												setStateActivePlaylistItemId(
+													data.id
+												)
+												getPlaylistDetail(data.id)
+											}}
+										>
+											<img
+												className='icon_playlist'
+												src={require('@/image/icon_playlist.svg')}
+												alt='icon_playlist'
+											/>
+											<span className='list_name line_clamp_1'>
+												{data.name}
+											</span>
+										</div>
+									))}
+								</div>
+							)}
 						</div>
 						<div
 							className='songlist_wrap border_box'
 							{...s_list.containerProps}
 						>
-							{loading ? (
+							{loading_songlist ? (
 								<div className='loading_wrap w_100 h_100 flex justify_center align_center'>
 									<LoadingOutlined
 										style={{

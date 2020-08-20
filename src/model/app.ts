@@ -70,8 +70,6 @@ export default modelExtend(commonModal, {
 					payload: { login: false }
 				})
 			}
-
-			yield put({ type: 'getDefaultSong' })
 		},
 		*getPlaylist (_: any, { call, put }: any) {
 			const { profile: { userId } } = store.get('userinfo')
