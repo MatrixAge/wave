@@ -70,8 +70,6 @@ export default modelExtend(commonModal, {
 					payload: { login: false }
 				})
 			}
-
-			yield put({ type: 'getDefaultSong' })
 		},
 		*getPlaylist (_: any, { call, put }: any) {
 			const { profile: { userId } } = store.get('userinfo')
@@ -123,27 +121,6 @@ export default modelExtend(commonModal, {
 			yield put({
 				type: 'updateState',
 				payload: { song_url: data[0].url }
-			})
-		},
-		*getDefaultSong (_: any, { put }: any) {
-			const playlist_active_id = store.get('playlist_active_id')
-			const songlist_active_item = store.get('songlist_active_item')
-
-			if (!playlist_active_id) return
-			if (!songlist_active_item) return
-
-			const songlist = store.get(`songlist_${playlist_active_id}`)
-
-			if (!songlist) return
-
-			yield put({
-				type: 'updateState',
-				payload: { current_song: songlist[songlist_active_item.index] }
-			})
-
-			yield put({
-				type: 'getSongUrl',
-				payload: { id: songlist_active_item.id }
 			})
 		}
 	}
