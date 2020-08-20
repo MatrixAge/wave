@@ -2,7 +2,7 @@ import { RequestConfig } from 'umi'
 import { message as _message } from 'antd'
 import store from 'store'
 
-const BASE_URL = 'https://linklink.in'
+const BASE_URL = 'https://linklink.in/wave'
 
 export const request: RequestConfig = {
 	prefix: BASE_URL,
