@@ -1,14 +1,13 @@
 import { RequestConfig } from 'umi'
 import { message as _message } from 'antd'
 import store from 'store'
-
-const BASE_URL = 'https://linklink.in/wave'
+import Config from './config'
 
 export const request: RequestConfig = {
-	prefix: BASE_URL,
+	prefix: Config.BASE_URL,
 	requestInterceptors: [
 		(url: string) => {
-			if (url === '/login/cellphone') return { url: `${BASE_URL}${url}` }
+			if (url === '/login/cellphone') return { url: `${Config.BASE_URL}${url}` }
 
                   const userinfo = store.get('userinfo')
 

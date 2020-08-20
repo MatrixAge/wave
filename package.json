@@ -23,7 +23,7 @@
       "homepage": "https://github.com/MatrixAge/wave#readme",
       "private": false,
       "scripts": {
-            "start": "umi dev",
+            "start": "MOCK=none umi dev",
             "build": "umi build",
             "postinstall": "umi generate tmp",
             "test": "umi-test",

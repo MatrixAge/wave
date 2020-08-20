@@ -55,7 +55,7 @@ const Index = (
 	const [ state_current, setStateCurrent ] = useState<number>(0)
 	const [ state_percent, setStatePercent ] = useState<number>(0)
 	const [ state_animate, setStateAnimate ] = useState<boolean>(false)
-	const audio = useRef<HTMLAudioElement>(null)
+	const [ state_disabled, setStateDisabled ] = useState<boolean>(true)
 
 	const getAudioContext = () => {
 		if (window.AudioContext) return new window.AudioContext()
@@ -63,6 +63,8 @@ const Index = (
 
 		return false
 	}
+
+	const audio = useRef<HTMLAudioElement>(null)
 	const context = useRef<IAudioContext | undefined | false>(getAudioContext())
 
 	usePlayer(audio, playing, setStateAnimate)
@@ -72,9 +74,9 @@ const Index = (
 		const audio_ctx = context.current
 
 		if (!audio_dom) return
-            if (!audio_ctx) return
-            
-            audio_dom.click()
+		if (!audio_ctx) return
+
+		audio_dom.click()
 
 		const source = audio_ctx.createMediaElementSource(audio_dom)
 		const analyser = audio_ctx.createAnalyser()
@@ -83,7 +85,11 @@ const Index = (
 		source.connect(analyser)
 		analyser.connect(audio_ctx.destination)
 
-            audio_ctx.analyser = analyser
+		audio_ctx.analyser = analyser
+
+		setTimeout(() => {
+			setStateDisabled(false)
+		}, 2000)
 	}, [])
 
 	useEffect(
@@ -256,7 +262,12 @@ const Index = (
 						/>
 					</div>
 				</div>
-				<div className='controls_wrap h_100 absolute flex justify_center align_center'>
+				<div
+					className={`
+                                    ${state_disabled ? 'disabled' : ''}
+                                    controls_wrap h_100 absolute flex justify_center align_center
+                              `}
+				>
 					<div className='controls flex align_center'>
 						<StepBackwardOutlined
 							className='prev cursor_point'
