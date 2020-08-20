@@ -10,3 +10,7 @@ declare module '*.svg' {
 declare module 'md5'
 declare module 'store'
 declare module 'dva-model-extend'
+
+interface Window {
+	webkitAudioContext: new (contextOptions?: AudioContextOptions | undefined) => AudioContext
+}
