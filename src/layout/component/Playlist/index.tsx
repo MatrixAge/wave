@@ -30,8 +30,8 @@ interface IProps {
 
 const Index = (props: IProps) => {
 	const {
-            visible,
-            loading_playlist,
+		visible,
+		loading_playlist,
 		loading_songlist,
 		playlist,
 		songlist,
@@ -56,7 +56,7 @@ const Index = (props: IProps) => {
 
 	const s_list = useVirtualList(songlist, {
 		overscan: 24,
-		itemHeight: 40
+		itemHeight: 48
 	})
 
 	useEffect(
@@ -122,7 +122,7 @@ const Index = (props: IProps) => {
 				<div className='list_wrap w_100 h_100vh fixed top_0 left_0 flex justify_center align_center'>
 					<div className='list border_box flex relative'>
 						<div className='options_wrap absolute w_100 border_box flex justify_between align_center'>
-							<div className='left flex align_center'>
+							<div className='left border_box flex align_center'>
 								<Tooltip title='sync playlist'>
 									<SyncOutlined
 										className='mr_12 ml_2'
@@ -169,8 +169,19 @@ const Index = (props: IProps) => {
 									<UserOutlined onClick={() => showLogin()} />
 								</Tooltip>
 							</div>
-							<div className='right flex align_center'>
-								<Tooltip title='close'>
+							<div className='right border_box flex align_center relative'>
+								<div className='th_items w_100 flex align_center'>
+									<span className='th_item line_clamp_1'>
+										音乐标题
+									</span>
+									<span className='th_item line_clamp_1'>
+										歌手
+									</span>
+									<span className='th_item line_clamp_1'>
+										专辑
+									</span>
+								</div>
+								<Tooltip className='absolute right_0' title='close'>
 									<CloseCircleOutlined
 										onClick={() => hidePlayList()}
 									/>
@@ -233,7 +244,7 @@ const Index = (props: IProps) => {
 												src={require('@/image/icon_playlist.svg')}
 												alt='icon_playlist'
 											/>
-											<span className='list_name line_clamp_1'>
+											<span className='list_name line_clamp_1 transition_normal'>
 												{data.name}
 											</span>
 										</div>
@@ -262,11 +273,13 @@ const Index = (props: IProps) => {
 									{s_list.list.map(({ data, index }) => (
 										<div
 											className={`
-                                                                                    songlist_item ${data.id ===
-														state_active_songlist_item_id
-															? 'active'
-															: ''} w_100 border_box flex align_center
-                                                                              `}
+                                                                        songlist_item
+                                                                        w_100 border_box flex align_center relative
+                                                                        ${data.id ===
+												state_active_songlist_item_id
+													? 'active'
+													: ''} 
+                                                                  `}
 											key={index}
 											onClick={() => {
 												store.set(
@@ -285,12 +298,39 @@ const Index = (props: IProps) => {
 											}}
 										>
 											<img
-												className='icon_song'
+												className='icon_song absolute left_0'
 												src={require('@/image/icon_song.svg')}
 												alt='icon_song'
 											/>
-											<span className='list_name line_clamp_1'>
+											<span className='list_name line_clamp_1 transition_normal'>
 												{data.name}
+											</span>
+											<div className='producer inline_block line_clamp_1 transition_normal'>
+												{data.ar ? (
+													data.ar.map(
+														(item: any) => (
+															<span
+																className='producer_name'
+																key={
+																	item.id
+																}
+															>
+																{
+																	item.name
+																}
+															</span>
+														)
+													)
+												) : (
+													''
+												)}
+											</div>
+											<span className='list_album line_clamp_1 transition_normal'>
+												{data.al ? (
+													data.al.name
+												) : (
+													''
+												)}
 											</span>
 										</div>
 									))}

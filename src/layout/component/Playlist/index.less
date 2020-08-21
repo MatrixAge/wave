@@ -59,7 +59,7 @@
 
       :global {
             .mask {
-                  background-color: rgba(0, 0, 0, 0.95);
+                  background-color: rgba(0, 0, 0, 0.9);
                   z-index: 10;
                   touch-action: none;
                   backdrop-filter: blur(5px);
@@ -86,8 +86,37 @@
                         height: 72vh;
 
                         .options_wrap {
-                              bottom: -24px;
+                              top: -24px;
                               z-index: 13;
+                              background-color: black;
+                              border-radius: 100px;
+
+                              .left {
+                                    width: 240px;
+                              }
+
+                              .right {
+                                    width: calc(~'100% - 240px');
+
+                                    .th_items {
+                                          opacity: 0.6;
+                                          font-size: 13px;
+                                          padding-left: 20px;
+
+                                          .th_item:nth-of-type(1) {
+                                                width: 40%;
+                                                padding-left: 24px;
+                                          }
+
+                                          .th_item:nth-of-type(2) {
+                                                width: 30%;
+                                          }
+
+                                          .th_item:nth-of-type(3) {
+                                                width: 30%;
+                                          }
+                                    }
+                              }
 
                               .sync {
                                     transform: rotate(90deg);
@@ -124,20 +153,27 @@
                               .playlist {
                                     width: 100%;
                                     padding: 24px 0;
+                                    padding-left: 20px;
+                                    border-left: 1px solid rgba(255, 255, 255, 0.15);
                                     border-right: 1px solid rgba(255, 255, 255, 0.15);
 
                                     .playlist_item {
                                           height: 44px;
+                                          border-right: 2px solid transparent;
+                                          cursor: pointer;
 
                                           &:hover,
                                           &.active {
-                                                border-right: 2px solid whitesmoke;
 
                                                 .icon_playlist,
                                                 .list_name {
                                                       opacity: 1;
                                                       font-weight: bold;
                                                 }
+                                          }
+
+                                          &.active {
+                                                border-right: 2px solid white;
                                           }
 
                                           &:hover {
@@ -159,7 +195,6 @@
                                                 width: calc(~'100% - 28px');
                                                 padding-left: 4px;
                                                 padding-right: 20px;
-                                                cursor: pointer;
                                                 font-size: 13px;
                                                 opacity: 0.8;
                                           }
@@ -174,10 +209,12 @@
 
                               .songlist {
                                     width: 100%;
-                                    padding: 24px;
+                                    padding: 24px 20px;
+                                    border-right: 1px solid rgba(255, 255, 255, 0.15);
 
                                     .songlist_item {
-                                          height: 40px;
+                                          height: 48px;
+                                          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
                                           &:hover,
                                           &.active {
@@ -185,7 +222,9 @@
                                                       opacity: 1;
                                                 }
 
-                                                .list_name {
+                                                .list_name,
+                                                .producer,
+                                                .list_album {
                                                       opacity: 1;
                                                       font-weight: bold;
                                                 }
@@ -207,12 +246,42 @@
                                           }
 
                                           .list_name {
-                                                width: calc(~'100% - 30px');
-                                                padding-left: 10px;
-                                                padding-right: 20px;
+                                                width: 40%;
+                                                padding-left: 28px;
+                                                padding-right: 40px;
                                                 cursor: pointer;
                                                 font-size: 13px;
                                                 opacity: 0.8;
+                                          }
+
+                                          .producer {
+                                                width: 30%;
+                                                padding-right: 40px;
+                                                opacity: 0.8;
+                                                font-size: 13px;
+                                                opacity: 0.4;
+
+                                                .producer_name {
+                                                      white-space: nowrap;
+
+                                                      &:last-child {
+                                                            &::after {
+                                                                  display: none;
+                                                            }
+                                                      }
+
+                                                      &::after {
+                                                            content: '/';
+                                                            display: inline-block;
+                                                      }
+
+                                                }
+                                          }
+
+                                          .list_album {
+                                                width: 30%;
+                                                font-size: 13px;
+                                                opacity: 0.4;
                                           }
                                     }
                               }
