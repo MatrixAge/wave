@@ -59,10 +59,10 @@
 
       :global {
             .mask {
-                  background-color: rgba(0, 0, 0, 0.9);
                   z-index: 10;
                   touch-action: none;
-                  backdrop-filter: blur(5px);
+                  background-color: rgba(0, 0, 0, 0.3);
+                  backdrop-filter: blur(10px);
 
                   :local {
                         animation: show_mask 0.3s;
@@ -85,35 +85,50 @@
                         width: var(--width_playlist);
                         height: 72vh;
 
+                        .btn_close {
+                              bottom: -60px;
+                              right: calc(~'50% - 12px');
+                              opacity: 1;
+                        }
+
                         .options_wrap {
                               top: -24px;
                               z-index: 13;
-                              background-color: black;
-                              border-radius: 100px;
+                              padding-bottom: 12px;
+                              border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
                               .left {
                                     width: 240px;
+                                    padding-right: 20px;
+                                    border-right: 1px solid rgba(255, 255, 255, 0.15);
+
+                                    .playlist_title{
+                                          opacity: 0.6;
+                                          font-size: 13px;
+                                    }
                               }
 
                               .right {
                                     width: calc(~'100% - 240px');
 
                                     .th_items {
+                                          padding-left: 20px;
                                           opacity: 0.6;
                                           font-size: 13px;
-                                          padding-left: 20px;
 
                                           .th_item:nth-of-type(1) {
-                                                width: 40%;
-                                                padding-left: 24px;
+                                                width: 50%;
+                                                padding-left: 30px;
+                                                display: inline-block;
+                                                box-sizing: border-box;
                                           }
 
                                           .th_item:nth-of-type(2) {
-                                                width: 30%;
+                                                width: 22%;
                                           }
 
                                           .th_item:nth-of-type(3) {
-                                                width: 30%;
+                                                width: 28%;
                                           }
                                     }
                               }
@@ -149,6 +164,7 @@
                               width: 240px;
                               height: 72vh;
                               overflow: auto;
+                              border-right: 1px solid rgba(255, 255, 255, 0.15);
 
                               .playlist {
                                     width: 100%;
@@ -188,7 +204,7 @@
                                                 padding-left: 4px;
                                                 padding-right: 20px;
                                                 font-size: 13px;
-                                                opacity: 0.8;
+                                                opacity: 0.4;
                                           }
                                     }
                               }
@@ -197,7 +213,6 @@
                         .songlist_wrap {
                               width: calc(~'100% - 240px');
                               height: 72vh;
-                              padding-right: 20px;
                               overflow: auto;
 
                               .songlist {
@@ -237,16 +252,16 @@
                                           }
 
                                           .list_name {
-                                                width: 40%;
-                                                padding-left: 28px;
+                                                width: 50%;
+                                                padding-left: 32px;
                                                 padding-right: 40px;
                                                 cursor: pointer;
                                                 font-size: 13px;
-                                                opacity: 0.8;
+                                                opacity: 0.4;
                                           }
 
                                           .producer {
-                                                width: 30%;
+                                                width: 22%;
                                                 padding-right: 40px;
                                                 opacity: 0.8;
                                                 font-size: 13px;
@@ -270,7 +285,7 @@
                                           }
 
                                           .list_album {
-                                                width: 30%;
+                                                width: 28%;
                                                 font-size: 13px;
                                                 opacity: 0.4;
                                           }

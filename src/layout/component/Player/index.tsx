@@ -35,8 +35,8 @@ export interface IAudioContext extends AudioContext {
 const Index = (
 	props: IProps,
 	ref:
-		| ((instance: IAudioContext | null) => void)
-		| MutableRefObject<IAudioContext | null | undefined | false>
+		| ((instance: HTMLAudioElement | null) => void)
+		| MutableRefObject<HTMLAudioElement | null | undefined>
 		| null
 ) => {
 	const {
@@ -49,7 +49,7 @@ const Index = (
 		changeStatus,
 		changeSong
 	} = props
-      const has_current = Object.keys(current_song).length > 0
+	const has_current = Object.keys(current_song).length > 0
 
 	const [ state_duration_time, setStateDurationTime ] = useState<string>('')
 	const [ state_current_time, setStateCurrentTime ] = useState<string>('')
@@ -60,35 +60,16 @@ const Index = (
 	const [ state_disabled, setStateDisabled ] = useState<boolean>(true)
 	const [ state_timer, setStateTimer ] = useState<NodeJS.Timer>()
 
-	const getAudioContext = () => {
-		if (window.AudioContext) return new window.AudioContext()
-		if (window.webkitAudioContext) return new window.webkitAudioContext()
-
-		return false
-	}
-
 	const audio = useRef<HTMLAudioElement>(null)
-	const context = useRef<IAudioContext | undefined | false>(getAudioContext())
 
 	usePlayer(audio, playing, setStateAnimate)
 
 	useEffect(
 		() => {
 			const audio_dom = audio.current
-			// const audio_ctx = context.current
 
 			if (!login) return
 			if (!audio_dom) return
-			// if (!audio_ctx) return
-
-			// const source = audio_ctx.createMediaElementSource(audio_dom)
-			// const analyser = audio_ctx.createAnalyser()
-
-			// analyser.fftSize = 4096
-			// source.connect(analyser)
-			// analyser.connect(audio_ctx.destination)
-
-			// audio_ctx.analyser = analyser
 
 			setTimeout(() => {
 				audio_dom.click()
@@ -102,7 +83,7 @@ const Index = (
 		() => {
 			const audio_dom = audio.current
 
-                  clearInterval(Number(state_timer))
+			clearInterval(Number(state_timer))
 			setStateCurrentTime('')
 			setStateDurationTime('')
 			setStateDuration(0)
@@ -153,16 +134,20 @@ const Index = (
 				}, 30)
 
 				setStateTimer(timer)
-                  }
-                  
-                  return () => {
-                        if(state_timer) clearInterval(state_timer)
-                  }
+			}
+
+			return () => {
+				if (state_timer) clearInterval(state_timer)
+			}
 		},
 		[ state_current ]
 	)
 
-	useImperativeHandle(ref, () => context.current)
+	useImperativeHandle(ref, () => {
+		if (audio.current) {
+			return audio.current
+		}
+	})
 
 	const onPrevNext = (type: 'prev' | 'next') => {
 		setStatePercent(0)

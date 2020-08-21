@@ -28,7 +28,7 @@ const Index = ({
 	playing,
 	clicked
 }: any) => {
-	const audio_ctx = useRef<IAudioContext>(null)
+	const audio = useRef<HTMLAudioElement>(null)
 
 	const props_header = {
 		clicked,
@@ -72,7 +72,7 @@ const Index = ({
 	const props_player = {
 		login,
 		clicked,
-		ref: audio_ctx,
+		ref: audio,
 		song_url,
 		current_song,
 		playing,
@@ -251,7 +251,7 @@ const Index = ({
 			<Playlist {...props_playlist} />
 			<Loader maskVisible visible={loading_refresh} />
 			{React.Children.map(children, (child) =>
-				React.cloneElement(child, { audio_ctx })
+				React.cloneElement(child, { audio })
 			)}
 		</div>
 	)

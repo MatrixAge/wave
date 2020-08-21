@@ -121,71 +121,77 @@ const Index = (props: IProps) => {
 			{visible && (
 				<div className='list_wrap w_100 h_100vh fixed top_0 left_0 flex justify_center align_center'>
 					<div className='list border_box flex relative'>
+						<div className='btn_close absolute cursor_point'>
+							<CloseCircleOutlined
+								style={{ color: 'white', fontSize: '24px' }}
+								onClick={() => hidePlayList()}
+							/>
+						</div>
 						<div className='options_wrap absolute w_100 border_box flex justify_between align_center'>
-							<div className='left border_box flex align_center'>
-								<Tooltip title='sync playlist'>
-									<SyncOutlined
-										className='mr_12 ml_2'
-										onClick={() => syncPlaylist()}
-									/>
-								</Tooltip>
-								<Tooltip title='sync songlist'>
-									<SwapOutlined
-										className='sync mr_12'
-										onClick={() => {
-											if (
-												state_active_playlist_item_id
-											) {
-												syncPlaylistDetail(
+							<div className='left border_box flex justify_between align_center'>
+								<span className='playlist_title'>playlist</span>
+								<div className='right_options flex align_center'>
+									<Tooltip title='sync playlist'>
+										<SyncOutlined
+											className='mr_12 ml_2'
+											onClick={() => syncPlaylist()}
+										/>
+									</Tooltip>
+									<Tooltip title='sync songlist'>
+										<SwapOutlined
+											className='sync mr_12'
+											onClick={() => {
+												if (
 													state_active_playlist_item_id
-												)
-											}
-										}}
-									/>
-								</Tooltip>
-								<Tooltip title='clear storage'>
-									<ClearOutlined
-										className='mr_12'
-										onClick={() => {
-											confirm({
-												className:
-													'confirm_clear_storage',
-												title: 'Confirm',
-												icon: '',
-												content:
-													'Are you sure to delete all storage in your device,this option will also remove you account.',
-												okText: 'confirm',
-												cancelText: 'cancel',
-												onOk: () => {
-													store.clearAll()
-
-													window.location.reload()
+												) {
+													syncPlaylistDetail(
+														state_active_playlist_item_id
+													)
 												}
-											})
-										}}
-									/>
-								</Tooltip>
-								<Tooltip title='relogin,while can`t play'>
-									<UserOutlined onClick={() => showLogin()} />
-								</Tooltip>
+											}}
+										/>
+									</Tooltip>
+									<Tooltip title='clear storage'>
+										<ClearOutlined
+											className='mr_12'
+											onClick={() => {
+												confirm({
+													className:
+														'confirm_clear_storage',
+													title: 'Confirm',
+													icon: '',
+													content:
+														'Are you sure to delete all storage in your device,this option will also remove you account.',
+													okText: 'confirm',
+													cancelText: 'cancel',
+													onOk: () => {
+														store.clearAll()
+
+														window.location.reload()
+													}
+												})
+											}}
+										/>
+									</Tooltip>
+									<Tooltip title='relogin,refresh cookie'>
+										<UserOutlined
+											onClick={() => showLogin()}
+										/>
+									</Tooltip>
+								</div>
 							</div>
 							<div className='right border_box flex align_center relative'>
 								<div className='th_items w_100 flex align_center'>
 									<span className='th_item line_clamp_1'>
-										音乐标题
+										title
 									</span>
 									<span className='th_item line_clamp_1'>
-										歌手
+										producers
 									</span>
 									<span className='th_item line_clamp_1'>
-										专辑
+										album
 									</span>
 								</div>
-								<Tooltip className='absolute right_0' title='close'>
-									<CloseCircleOutlined
-										onClick={() => hidePlayList()}
-									/>
-								</Tooltip>
 							</div>
 						</div>
 						<div className='top_mask playlist_mask absolute top_0 w_100' />

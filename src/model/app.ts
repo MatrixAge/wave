@@ -110,8 +110,13 @@ export default modelExtend(commonModal, {
 			store.set(`songlist_${id}`, tracks)
 		},
 		*getSongUrl ({ payload }: any, { call, put }: any) {
-			const { type, current_song, id } = payload
+                  const { type, current_song, id } = payload
+                  
+			const hideLoading = type !== 'getDefaultSong' && message.loading('loading')
+
 			const { code, data } = yield call(Service.getSongUrl, id)
+
+			type !== 'getDefaultSong' && hideLoading && hideLoading()
 
 			if (code !== 200) return
 
