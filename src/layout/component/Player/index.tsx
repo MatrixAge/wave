@@ -68,31 +68,30 @@ const Index = (
 	}
 
 	const audio = useRef<HTMLAudioElement>(null)
-	const context = useRef<IAudioContext | undefined | false>(getAudioContext())
+	// const context = useRef<IAudioContext | undefined | false>(getAudioContext())
 
 	usePlayer(audio, playing, setStateAnimate)
 
 	useEffect(
 		() => {
 			const audio_dom = audio.current
-			const audio_ctx = context.current
+			// const audio_ctx = context.current
 
 			if (!login) return
 			if (!audio_dom) return
-			if (!audio_ctx) return
+			// if (!audio_ctx) return
 
-			audio_dom.click()
+			// const source = audio_ctx.createMediaElementSource(audio_dom)
+			// const analyser = audio_ctx.createAnalyser()
 
-			const source = audio_ctx.createMediaElementSource(audio_dom)
-			const analyser = audio_ctx.createAnalyser()
+			// analyser.fftSize = 4096
+			// source.connect(analyser)
+			// analyser.connect(audio_ctx.destination)
 
-			analyser.fftSize = 4096
-			source.connect(analyser)
-			analyser.connect(audio_ctx.destination)
-
-			audio_ctx.analyser = analyser
+			// audio_ctx.analyser = analyser
 
 			setTimeout(() => {
+				audio_dom.click()
 				setStateDisabled(false)
 			}, 2000)
 		},
@@ -112,8 +111,8 @@ const Index = (
 
 			if (!audio_dom) return
 
-                  audio_dom.src = song_url
-                  audio_dom.load()
+			audio_dom.src = song_url
+			audio_dom.load()
 
 			audio_dom.ondurationchange = () => {
 				setStateDuration(audio_dom.duration)
