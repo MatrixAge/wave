@@ -1,5 +1,5 @@
-import React, { memo, useRef } from 'react'
-import { connect } from 'umi'
+import React, { memo, useState, useEffect, useRef } from 'react'
+import { connect, history, useLocation } from 'umi'
 import { message } from 'antd'
 import store from 'store'
 import Loader from '@/component/Loader'
@@ -8,7 +8,7 @@ import List from './component/List'
 import Player from './component/Player'
 import Playlist from './component/Playlist'
 import Login from './component/Login'
-import { IAudioContext } from './component/Player'
+import useAudioContext from '@/hook/useAudioContext'
 
 const Index = ({
 	children,
@@ -29,6 +29,36 @@ const Index = ({
 	clicked
 }: any) => {
 	const audio = useRef<HTMLAudioElement>(null)
+
+	const location = useLocation()
+	const usc = useAudioContext(audio.current)
+
+	useEffect(() => {
+		if (!usc) return
+		if (!usc.audio_ctx) return
+		if (!usc.analyser) return
+
+		return () => {
+			usc.analyser.disconnect()
+			usc.audio_ctx.close()
+		}
+	}, [])
+
+	useEffect(
+		() => {
+			if (!clicked && location.pathname !== '/') {
+				history.push('/')
+			}
+
+			if (location.pathname === '/') {
+				dispatch({
+					type: 'app/updateState',
+					payload: { clicked: false }
+				})
+			}
+		},
+		[ location.pathname ]
+	)
 
 	const props_header = {
 		clicked,
@@ -70,9 +100,10 @@ const Index = ({
 	}
 
 	const props_player = {
+		ref: audio,
+		audio_ctx: usc ? usc.audio_ctx : null,
 		login,
 		clicked,
-		ref: audio,
 		song_url,
 		current_song,
 		playing,
@@ -251,7 +282,10 @@ const Index = ({
 			<Playlist {...props_playlist} />
 			<Loader maskVisible visible={loading_refresh} />
 			{React.Children.map(children, (child) =>
-				React.cloneElement(child, { audio })
+				React.cloneElement(child, {
+					audio: audio.current,
+					analyser: usc ? usc.analyser : null
+				})
 			)}
 		</div>
 	)

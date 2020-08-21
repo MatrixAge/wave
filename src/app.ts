@@ -9,7 +9,7 @@ export const request: RequestConfig = {
 		(url: string) => {
 			if (url === '/login/cellphone') return { url: `${Config.BASE_URL}${url}` }
 
-                  const userinfo = store.get('userinfo')
+			const userinfo = store.get('userinfo')
 
 			if (userinfo) {
 				return {
@@ -22,7 +22,7 @@ export const request: RequestConfig = {
 			}
 		}
 	],
-      errorHandler: async (err: any) => {
+	errorHandler: async (err: any) => {
 		const { code, message, msg } = await err.response.json()
 
 		if (code !== 200) {

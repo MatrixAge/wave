@@ -1,33 +1,47 @@
 import React, { memo, useEffect } from 'react'
-import { ConnectProps } from 'umi'
+import { history, ConnectProps } from 'umi'
 import styles from './index.less'
-import { IAudioContext } from '@/layout/component/Player'
 
 interface IProps extends ConnectProps {
-	audio_ctx: React.RefObject<IAudioContext>
+	audio: HTMLAudioElement
+	analyser: AnalyserNode
 }
 
 const Index = (props: IProps) => {
-	const { audio_ctx } = props
+	const { audio, analyser } = props
 
-	// useEffect(() => {
-	// 		if (!audio_ctx.current) return
-	// 		if (!audio_ctx.current.analyser) return
+	console.log(audio)
+	console.log(analyser)
 
-	// 		const array = new Uint8Array(128)
-	// 		audio_ctx.current.analyser.getByteFrequencyData(array)
-		
-	// }, [])
+	useEffect(() => {
+		if (!audio) return
+		if (!analyser) return
+
+		let cancel_id: number
+
+		const log = () => {
+			const array = new Uint8Array(128)
+			analyser.getByteFrequencyData(array)
+
+			console.log(array)
+			cancel_id = requestAnimationFrame(log)
+		}
+
+		log()
+
+		return () => {
+			cancelAnimationFrame(cancel_id)
+		}
+	}, [])
 
 	return (
-		<div className={`${styles._local} fixed z_index_1000`}>
-			<div id='wave' className='w_100 h_100 flex align_center justify_center'>
-				<canvas id='myCanvas1' width='700' height='600' />
-				<canvas id='myCanvas' width='450' height='450'>
-					您的浏览器不支持canvas标签
-				</canvas>
-				<span id='wavejs'>WAVE.JS</span>
-			</div>
+		<div
+			className={`${styles._local} fixed w_100vw h_100vh`}
+			onClick={() => {
+				history.push('/')
+			}}
+		>
+			123
 		</div>
 	)
 }

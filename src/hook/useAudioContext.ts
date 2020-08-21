@@ -1,20 +1,34 @@
-const getAudioContext = () => {
-	if (window.AudioContext) return new window.AudioContext()
-	if (window.webkitAudioContext) return new window.webkitAudioContext()
+import { useMemo, useRef } from 'react'
 
-	return false
+const Index = (audio_dom: HTMLAudioElement | null) => {
+	const getAudioContext = () => {
+		if (window.AudioContext) return new window.AudioContext()
+		if (window.webkitAudioContext) return new window.webkitAudioContext()
+
+		return false
+	}
+
+	const context = useRef<AudioContext | false>(getAudioContext())
+
+	return useMemo(
+		() => {
+			const audio_ctx = context.current
+
+			if (!audio_ctx) return
+			if (!audio_dom) return
+
+			const source = audio_ctx.createMediaElementSource(audio_dom)
+			const analyser = audio_ctx.createAnalyser()
+
+                  source.connect(analyser)
+                  
+			analyser.fftSize = 4096
+                  analyser.connect(audio_ctx.destination)
+
+			return { audio_ctx, analyser }
+		},
+		[ audio_dom ]
+	)
 }
 
-// const context = useRef<IAudioContext | undefined | false>(getAudioContext())
-
-// const audio_ctx = context.current
-// if (!audio_ctx) return
-
-// const source = audio_ctx.createMediaElementSource(audio_dom)
-// const analyser = audio_ctx.createAnalyser()
-
-// analyser.fftSize = 4096
-// source.connect(analyser)
-// analyser.connect(audio_ctx.destination)
-
-// audio_ctx.analyser = analyser
+export default Index

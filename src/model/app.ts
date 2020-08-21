@@ -17,7 +17,8 @@ export default modelExtend(commonModal, {
 		song_url: '',
 		current_song: {},
 		playing: false,
-		clicked: false
+		clicked: false,
+		backed: false
 	},
 
 	subscriptions: {
@@ -110,8 +111,8 @@ export default modelExtend(commonModal, {
 			store.set(`songlist_${id}`, tracks)
 		},
 		*getSongUrl ({ payload }: any, { call, put }: any) {
-                  const { type, current_song, id } = payload
-                  
+			const { type, current_song, id } = payload
+
 			const hideLoading = type !== 'getDefaultSong' && message.loading('loading')
 
 			const { code, data } = yield call(Service.getSongUrl, id)
@@ -126,8 +127,9 @@ export default modelExtend(commonModal, {
 				yield put({
 					type: 'updateState',
 					payload: {
-						playing: false,
-						song_url: null
+						song_url: null,
+						current_song: {},
+						playing: false
 					}
 				})
 

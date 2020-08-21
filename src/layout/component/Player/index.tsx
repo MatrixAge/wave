@@ -18,6 +18,7 @@ import { usePlayer } from './util/hook'
 import styles from './index.less'
 
 interface IProps {
+	audio_ctx: AudioContext | null
 	login: boolean
 	clicked: boolean
 	song_url: string
@@ -28,10 +29,6 @@ interface IProps {
 	changeSong: (type: 'prev' | 'next') => void
 }
 
-export interface IAudioContext extends AudioContext {
-	analyser?: AnalyserNode
-}
-
 const Index = (
 	props: IProps,
 	ref:
@@ -40,6 +37,7 @@ const Index = (
 		| null
 ) => {
 	const {
+		audio_ctx,
 		login,
 		clicked,
 		song_url,
@@ -62,7 +60,7 @@ const Index = (
 
 	const audio = useRef<HTMLAudioElement>(null)
 
-	usePlayer(audio, playing, setStateAnimate)
+	usePlayer(audio, audio_ctx, playing, setStateAnimate)
 
 	useEffect(
 		() => {

@@ -1,4 +1,5 @@
 import React, { memo, useState, useEffect } from 'react'
+import { Link } from 'umi'
 import styles from './index.less'
 
 interface IProps {
@@ -7,32 +8,41 @@ interface IProps {
 }
 
 const wave_items = [
-      {
-		bg_top: '#E91E63'
+	{
+		bg_top: '#E91E63',
+		path: 'classic'
 	},
 	{
-		bg_top: '#F44336'
+		bg_top: '#F44336',
+		path: 'classic'
 	},
 	{
-		bg_top: '#FF9800'
+		bg_top: '#FF9800',
+		path: 'classic'
 	},
 	{
-		bg_top: '#D3C22F'
+		bg_top: '#D3C22F',
+		path: 'classic'
 	},
 	{
-		bg_top: '#4CAF50'
+		bg_top: '#4CAF50',
+		path: 'classic'
 	},
 	{
-		bg_top: '#00BCD4'
+		bg_top: '#00BCD4',
+		path: 'classic'
 	},
 	{
-		bg_top: '#448AFF'
+		bg_top: '#448AFF',
+		path: 'classic'
 	},
 	{
-		bg_top: '#E040FB'
+		bg_top: '#E040FB',
+		path: 'classic'
 	},
 	{
-		bg_top: '#7C4DFF'
+		bg_top: '#7C4DFF',
+		path: 'classic'
 	}
 ]
 
@@ -77,8 +87,8 @@ const Index = (props: IProps) => {
 					setStateActiveIndex(null)
 				}}
 			>
-				{wave_items.map((_, index) => (
-					<div
+				{wave_items.map((item, index) => (
+					<Link
 						className={`
                                           wave_item 
                                           ${getItemClass(index)} 
@@ -95,6 +105,7 @@ const Index = (props: IProps) => {
 						}}
 						onMouseEnter={() => setStateActiveIndex(index)}
 						onClick={() => clickWaveItem()}
+						to={`/${item.path}`}
 						key={index}
 					>
 						<div
@@ -114,7 +125,7 @@ const Index = (props: IProps) => {
 								backgroundColor: `${getBgTop(index)}`
 							}}
 						/>
-					</div>
+					</Link>
 				))}
 			</div>
 		</div>
