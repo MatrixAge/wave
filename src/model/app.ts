@@ -71,11 +71,13 @@ export default modelExtend(commonModal, {
 				})
 			}
 
-			const wait = new Promise((resolve) => {
-				setTimeout(() => {
-					resolve()
-				}, 2000)
-			})
+                  const wait = () => {
+                        return new Promise((resolve) => {
+					setTimeout(() => {
+						resolve()
+					}, 2000)
+				})
+                  }
 
 			yield call(wait)
 			yield put({ type: 'getDefaultSong' })
@@ -131,8 +133,8 @@ export default modelExtend(commonModal, {
 				type: 'updateState',
 				payload: { song_url: data[0].url }
 			})
-            },
-            *getDefaultSong (_: any, { put }: any) {
+		},
+		*getDefaultSong (_: any, { put }: any) {
 			const playlist_active_id = store.get('playlist_active_id')
 			const songlist_active_item = store.get('songlist_active_item')
 
