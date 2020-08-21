@@ -49,7 +49,7 @@ const Index = (
 		changeStatus,
 		changeSong
 	} = props
-	const has_current = Object.keys(current_song).length > 0
+      const has_current = Object.keys(current_song).length > 0
 
 	const [ state_duration_time, setStateDurationTime ] = useState<string>('')
 	const [ state_current_time, setStateCurrentTime ] = useState<string>('')
@@ -153,7 +153,11 @@ const Index = (
 				}, 30)
 
 				setStateTimer(timer)
-			}
+                  }
+                  
+                  return () => {
+                        if(state_timer) clearInterval(state_timer)
+                  }
 		},
 		[ state_current ]
 	)

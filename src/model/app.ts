@@ -71,13 +71,13 @@ export default modelExtend(commonModal, {
 				})
 			}
 
-                  const wait = () => {
-                        return new Promise((resolve) => {
+			const wait = () => {
+				return new Promise((resolve) => {
 					setTimeout(() => {
 						resolve()
 					}, 2000)
 				})
-                  }
+			}
 
 			yield call(wait)
 			yield put({ type: 'getDefaultSong' })
@@ -110,7 +110,7 @@ export default modelExtend(commonModal, {
 			store.set(`songlist_${id}`, tracks)
 		},
 		*getSongUrl ({ payload }: any, { call, put }: any) {
-			const { id } = payload
+			const { type, current_song, id } = payload
 			const { code, data } = yield call(Service.getSongUrl, id)
 
 			if (code !== 200) return
@@ -131,7 +131,11 @@ export default modelExtend(commonModal, {
 
 			yield put({
 				type: 'updateState',
-				payload: { song_url: data[0].url }
+				payload: {
+					song_url: data[0].url,
+					current_song: current_song ? current_song : {},
+					playing: type !== 'getDefaultSong' ? true : false
+				}
 			})
 		},
 		*getDefaultSong (_: any, { put }: any) {
@@ -146,13 +150,12 @@ export default modelExtend(commonModal, {
 			if (!songlist) return
 
 			yield put({
-				type: 'updateState',
-				payload: { current_song: songlist[songlist_active_item.index] }
-			})
-
-			yield put({
 				type: 'getSongUrl',
-				payload: { id: songlist_active_item.id }
+				payload: {
+					type: 'getDefaultSong',
+					current_song: songlist[songlist_active_item.index],
+					id: songlist_active_item.id
+				}
 			})
 		}
 	}
