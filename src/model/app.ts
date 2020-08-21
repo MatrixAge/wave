@@ -47,7 +47,7 @@ export default modelExtend(commonModal, {
 
 			store.set('userinfo', res)
 		},
-            *refresh(_: any, { call, put }: any) {
+		*refresh (_: any, { call, put }: any) {
 			const userinfo = store.get('userinfo')
 
 			if (!userinfo) return
@@ -71,6 +71,13 @@ export default modelExtend(commonModal, {
 				})
 			}
 
+			const wait = new Promise((resolve) => {
+				setTimeout(() => {
+					resolve()
+				}, 2000)
+			})
+
+			yield call(wait)
 			yield put({ type: 'getDefaultSong' })
 		},
 		*getPlaylist (_: any, { call, put }: any) {
@@ -119,32 +126,6 @@ export default modelExtend(commonModal, {
 
 				return
 			}
-
-			yield put({
-				type: 'updateState',
-				payload: { song_url: data[0].url }
-			})
-		},
-		*getDefaultSong (_: any, { put }: any) {
-			const playlist_active_id = store.get('playlist_active_id')
-			const songlist_active_item = store.get('songlist_active_item')
-
-			if (!playlist_active_id) return
-			if (!songlist_active_item) return
-
-			const songlist = store.get(`songlist_${playlist_active_id}`)
-
-			if (!songlist) return
-
-			yield put({
-				type: 'updateState',
-				payload: { current_song: songlist[songlist_active_item.index] }
-			})
-
-			yield put({
-				type: 'getSongUrl',
-				payload: { id: songlist_active_item.id }
-			})
 		}
 	}
 })
