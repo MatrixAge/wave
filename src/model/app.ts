@@ -70,6 +70,7 @@ export default modelExtend(commonModal, {
 					payload: { login: false }
 				})
 			}
+<<<<<<< HEAD
 
 			const wait = new Promise((resolve) => {
 				setTimeout(() => {
@@ -79,6 +80,8 @@ export default modelExtend(commonModal, {
 
 			yield call(wait)
 			yield put({ type: 'getDefaultSong' })
+=======
+>>>>>>> 1b062510174b97c3836da987bea3d49d44adf965
 		},
 		*getPlaylist (_: any, { call, put }: any) {
 			const { profile: { userId } } = store.get('userinfo')
@@ -126,6 +129,14 @@ export default modelExtend(commonModal, {
 
 				return
 			}
+<<<<<<< HEAD
+=======
+
+			yield put({
+				type: 'updateState',
+				payload: { song_url: data[0].url }
+			})
+>>>>>>> 1b062510174b97c3836da987bea3d49d44adf965
 		}
 	}
 })

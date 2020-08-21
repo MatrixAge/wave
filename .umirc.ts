@@ -35,7 +35,7 @@ export default defineConfig({
 	favicon: '/favicon.ico',
       dva: { immer: true, hmr: true },
       alias: { '@root': path.join(__dirname, './') },
-	dynamicImport: { loading: '@/component/Loader' },
+	dynamicImport: { loading: '@/component/Landing' },
 	nodeModulesTransform: { type: 'none', exclude: [] },
 	targets: { chrome: 79, firefox: false, safari: false, edge: false, ios: false },
 	chainWebpack: (config) => {

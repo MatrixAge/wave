@@ -13,7 +13,8 @@ import { IAudioContext } from './component/Player'
 const Index = ({
 	children,
 	dispatch,
-	loading_login,
+      loading_login,
+      loading_refresh,
 	loading_getPlaylist,
 	loading_getPlaylistDetail,
 	login,
@@ -258,7 +259,7 @@ const Index = ({
 			<Player {...props_player} />
 			<Login {...props_login} />
                   <Playlist {...props_playlist} />
-                  <Loader maskVisible visible={!login} />
+                  <Loader maskVisible visible={loading_refresh} />
 			{React.Children.map(children, (child) =>
 				React.cloneElement(child, { audio_ctx })
 			)}
@@ -284,11 +285,13 @@ export default memo(
 			loading
 		}: any) => {
 			const loading_login = loading.effects['app/login']
+			const loading_refresh = loading.effects['app/refresh']
 			const loading_getPlaylist = loading.effects['app/getPlaylist']
 			const loading_getPlaylistDetail = loading.effects['app/getPlaylistDetail']
 
 			return {
-				loading_login,
+                        loading_login,
+                        loading_refresh,
 				loading_getPlaylist,
 				loading_getPlaylistDetail,
 				login,
