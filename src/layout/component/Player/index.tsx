@@ -94,7 +94,7 @@ const Index = (
 
 			setTimeout(() => {
 				setStateDisabled(false)
-			}, 1000)
+			}, 2000)
 		},
 		[ login ]
 	)
@@ -112,8 +112,8 @@ const Index = (
 
 			if (!audio_dom) return
 
-			audio_dom.pause()
-			audio_dom.src = song_url
+                  audio_dom.src = song_url
+                  audio_dom.load()
 
 			audio_dom.ondurationchange = () => {
 				setStateDuration(audio_dom.duration)
@@ -166,6 +166,12 @@ const Index = (
 		setStatePercent(0)
 		setStateAnimate(false)
 		changeSong(type)
+
+		const audio_dom = audio.current
+
+		if (!audio_dom) return
+
+		audio_dom.pause()
 	}
 
 	return (
