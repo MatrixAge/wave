@@ -102,6 +102,7 @@ const Index = (
 		() => {
 			const audio_dom = audio.current
 
+                  clearInterval(Number(state_timer))
 			setStateCurrentTime('')
 			setStateDurationTime('')
 			setStateDuration(0)
@@ -160,8 +161,6 @@ const Index = (
 	useImperativeHandle(ref, () => context.current)
 
 	const onPrevNext = (type: 'prev' | 'next') => {
-		clearInterval(Number(state_timer))
-
 		setStatePercent(0)
 		setStateAnimate(false)
 		changeSong(type)

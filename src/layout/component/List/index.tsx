@@ -72,7 +72,7 @@ const Index = (props: IProps) => {
 			className={`${styles._local} w_100vw h_100vh border_box fixed top_0 left_0 flex justify_center align_center`}
 		>
 			<div
-				className='wave_items border_box flex justify_center transition_slow'
+				className='wave_items border_box flex justify_center'
 				onMouseOut={() => {
 					setStateActiveIndex(null)
 				}}
