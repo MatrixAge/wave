@@ -68,7 +68,7 @@ const Index = (
 	}
 
 	const audio = useRef<HTMLAudioElement>(null)
-	// const context = useRef<IAudioContext | undefined | false>(getAudioContext())
+	const context = useRef<IAudioContext | undefined | false>(getAudioContext())
 
 	usePlayer(audio, playing, setStateAnimate)
 
