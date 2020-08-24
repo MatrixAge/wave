@@ -11,17 +11,17 @@
 @keyframes shaking {
       0% {
             transform: scale(1);
-            filter:blur(0px) brightness(0.6) saturate(2);
+            filter: blur(0px) brightness(0.6) saturate(2);
       }
 
       50% {
             transform: scale(3);
-            filter:blur(10px) brightness(1.2) saturate(1);
+            filter: blur(10px) brightness(1.2) saturate(1);
       }
 
       100% {
             transform: scale(1);
-            filter:blur(0px) brightness(0.6) saturate(2);
+            filter: blur(0px) brightness(0.6) saturate(2);
       }
 }
 
@@ -61,7 +61,7 @@
 
                   .bg_cover {
                         z-index: 3;
-                        filter:blur(0px) brightness(0.8);
+                        filter: blur(0px) brightness(0.8);
 
                         :local {
                               animation: shaking infinite;
@@ -130,12 +130,29 @@
 
                               .next,
                               .prev {
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 18px;
                                     font-size: 24px;
+                                    background-color: transparent;
+
+                                    &:hover {
+                                          background-color: rgba(255, 255, 255, 0.2);
+                                    }
                               }
 
                               .status_wrap {
-                                    width: 48px;
-                                    height: 48px;
+                                    width: 45px;
+                                    height: 45px;
+                                    border-radius: 45px;
+                                    background-color: transparent;
+
+                                    &:hover {
+                                          background-color: rgba(255, 255, 255, 0.2);
+                                    }
 
                                     .start_pause {
                                           font-size: 30px;
@@ -181,6 +198,8 @@
                   }
 
                   .options_wrap {
+                        margin-right: -8px;
+
                         .duration_value {
                               padding-right: 16px;
                               margin-right: 6px;
@@ -190,8 +209,18 @@
                         }
 
                         .option {
-                              margin-left: 10px;
+                              display: flex;
+                              justify-content: center;
+                              align-items: center;
+                              width: 36px;
+                              height: 36px;
+                              border-radius: 18px;
+                              background-color: transparent;
                               font-size: 16px;
+
+                              &:hover {
+                                    background-color: rgba(255, 255, 255, 0.2);
+                              }
                         }
                   }
             }

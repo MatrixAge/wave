@@ -36,14 +36,19 @@
             "ahooks": "^2.4.0",
             "dexie": "^3.0.2",
             "dva-model-extend": "^0.1.2",
+            "lerp": "^1.0.3",
             "md5": "^2.3.0",
             "react": "^16.13.1",
             "react-dom": "^16.13.1",
+            "react-three-fiber": "^4.2.20",
             "store": "^2.0.12",
+            "three": "^0.119.1",
+            "threejs-meshline": "^2.0.11",
             "umi": "^3.2.14",
             "yorkie": "^2.0.0"
       },
       "devDependencies": {
-            "@umijs/plugin-esbuild": "^1.0.0-beta.2"
+            "@umijs/plugin-esbuild": "^1.0.0-beta.2",
+            "gltfjsx": "^2.0.4"
       }
 }

@@ -83,9 +83,7 @@ const Index = (props: IProps) => {
 		>
 			<div
 				className='wave_items border_box flex justify_center'
-				onMouseOut={() => {
-					setStateActiveIndex(null)
-				}}
+				onMouseOut={() => setStateActiveIndex(null)}
 			>
 				{wave_items.map((item, index) => (
 					<Link

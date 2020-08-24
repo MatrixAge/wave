@@ -1,3 +1,4 @@
+declare module '*.js'
 declare module '*.css'
 declare module '*.less'
 declare module '*.png'
@@ -8,6 +9,7 @@ declare module '*.svg' {
 }
 
 declare module 'md5'
+declare module 'lerp'
 declare module 'store'
 declare module 'dva-model-extend'
 
