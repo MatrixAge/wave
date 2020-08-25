@@ -265,7 +265,7 @@ const Index = (
 							</span>
 						</div>
 						<UnorderedListOutlined
-							className='option'
+							className='option transition_normal'
 							onClick={() => showPlayList()}
 						/>
 					</div>
@@ -278,11 +278,11 @@ const Index = (
 				>
 					<div className='controls flex align_center'>
 						<StepBackwardOutlined
-							className='prev cursor_point'
+							className='prev cursor_point transition_normal'
 							onClick={() => onPrevNext('prev')}
 						/>
 						<div
-							className='status_wrap flex justify_center align_center cursor_point'
+							className='status_wrap flex justify_center align_center cursor_point transition_normal'
 							onClick={() => changeStatus()}
 						>
 							{playing ? (
@@ -296,7 +296,7 @@ const Index = (
 							)}
 						</div>
 						<StepForwardOutlined
-							className='next cursor_point'
+							className='next cursor_point transition_normal'
 							onClick={() => onPrevNext('next')}
 						/>
 					</div>
