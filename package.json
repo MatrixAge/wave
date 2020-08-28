@@ -42,6 +42,7 @@
             "react": "^16.13.1",
             "react-dom": "^16.13.1",
             "react-postprocessing": "^1.1.6",
+            "react-spring": "^8.0.27",
             "react-three-fiber": "^4.2.20",
             "store": "^2.0.12",
             "three": "^0.119.1",

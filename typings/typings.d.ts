@@ -13,6 +13,8 @@ declare module 'lerp'
 declare module 'store'
 declare module 'dva-model-extend'
 declare module 'threejs-meshline'
+declare module 'react-spring/three'
+declare module 'postprocessing'
 
 interface Window {
 	webkitAudioContext: new (contextOptions?: AudioContextOptions | undefined) => AudioContext
@@ -22,5 +24,6 @@ declare namespace JSX {
 	interface IntrinsicElements {
 		meshLine: any
 		meshLineMaterial: any
+		trackballControls: any
 	}
 }
